@@ -1,0 +1,28 @@
+.openDash{
+   
+    padding-left:265px;
+    transition: 0.3s all ease;
+}
+.closeDash{
+
+    padding-left:100px;
+    transition: 0.3s all ease;
+}
+.dash-head{
+    font-size: 15px;
+    font-weight: 600;
+    padding:15px 10px 15px 13px;
+}
+
+@media screen and (max-width:768px){
+    .openDash{
+   
+        padding-left:10px;
+        transition: 0.2s all ease;
+    }
+    .closeDash{
+
+        padding-left:100px;
+        transition: 0.2s all ease;
+    }
+}

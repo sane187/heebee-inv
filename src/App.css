@@ -1,0 +1,86 @@
+.fullscreen{
+    font-family:'Inter' !important;
+    background-color: #F1F5F7 !important;
+    overflow: auto;
+}
+.card{
+    box-shadow: 0 2px 4px rgb(0 0 0 / 8%) !important;
+    border-width: 0;
+} 
+@media screen and (max-width:768px) { 
+.card{
+    box-shadow: 0 2px 4px rgb(0 0 0 / 8%) !important;
+    margin-bottom: 24px;
+}  
+}
+:root {
+    --bg-color: #f4f4f4;
+    --right-sidebar-bg-color: #ecf0f1;
+    --black-color: #17202a;
+    --white-color: #fff;
+    --gray-color: #7b7d7d;
+    --light-gray-color: #ecf0f1;
+    --bg-overlay-color: #292626;
+    --primary-color: #664d03;
+    --primary-dark-color: #473603;
+    --primary-color-light: rgba(102,77,3,.25);
+    --primary-color-light-input: rgba(102,77,3,.12);
+    --primary-color-light-2: rgba(102,77,3,.3);
+    --primary-btn-color-light: #fff;
+    --primary-btn-color-dark: #17202a;
+    --heading-color: #343a40;
+    --warning-color: #f39c12;
+    --brown-color: #2e2d2b;
+    --brown-dark-color: #1f1e1d;
+    --hr-color: #d0d3d4;
+    --normal-color: #f1948a;
+    --silver-color: #b3b6b7;
+    --gold-color: #f7dc6f;
+    --platinum-color: #e5e4e2;
+    --pending-color: #ffa726;
+    --pending-payment-color: #bdbdbd;
+    --processing-color: #26c6da;
+    --accepted-color: #7e57c2;
+    --ready-color: #9ccc65;
+    --complete-color: #66bb6a;
+    --cancelled-color: #ef5350;
+    --closed-color: #78909c;
+    --onhold-color: #ff7043;
+    --pending-light-color: rgba(255,167,38,.25);
+    --pending-payment-light-color: hsla(0,0%,74%,.25);
+    --processing-light-color: rgba(38,198,218,.25);
+    --accepted-light-color: rgba(126,87,194,.25);
+    --ready-light-color: hsla(88,50%,60%,.25);
+    --complete-light-color: rgba(102,187,106,.25);
+    --cancelled-light-color: rgba(239,83,80,.25);
+    --closed-light-color: rgba(120,144,156,.25);
+    --onhold-light-color: rgba(255,112,67,.25);
+    --border-radius: 10px;
+}
+button:focus{
+    box-shadow: 0 0 0 0 !important;
+  
+  }
+  input:focus{
+    box-shadow: 0 0 0 0 !important;
+  
+  }
+  select:focus{
+    box-shadow: 0 0 0 0 !important;
+  
+  }
+  
+*::-webkit-scrollbar{
+    width: 5px !important;
+  }
+   
+*::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
+    border-radius: 5px !important;
+  }
+   
+*::-webkit-scrollbar-thumb  {
+    background-color: #1CBB8C !important;
+    outline: 1px solid white !important;
+    border-radius: 10px !important;
+  }
