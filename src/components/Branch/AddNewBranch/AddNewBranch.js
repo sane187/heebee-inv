@@ -9,7 +9,7 @@ const AddNewBranch = (props) => {
         <div className='form-container'>
           <div className='form-head'>Add New Branch</div>
           <div className='form-body'>
-            <form>
+            <form onSubmit={props.onClickCat}>
               <Row>
                 <Col> <div className="mb-3 p-2">
                   <label className="form-label">Branch Name</label>
@@ -38,7 +38,7 @@ const AddNewBranch = (props) => {
                   {props.displayFranchise()}
                 </div></Col>
               </Row>
-              <div className="p-2"><button className='btn btn-primary  ' onClick={props.onClickCat} >Next</button></div>
+              <div className="p-2"><button className='btn btn-primary  ' type="submit" >Next</button></div>
             </form>
           </div>
         </div>

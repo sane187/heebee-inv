@@ -8,3 +8,8 @@
   src: local("Nunito"),
     url("./assets/fonts/Nunito-VariableFont_wght.ttf") format("truetype");
 }
+@font-face {
+  font-family: "Press Start 2P";
+  src: local("Press Start 2P"),
+    url("./assets/fonts/PressStart2P-Regular.ttf") format("truetype");
+}

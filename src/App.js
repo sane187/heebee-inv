@@ -2,7 +2,7 @@ import Sidebar from './components/sidebar';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import './App.css';
+import './app.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from './components/Dashboard/dashboard';
 import Customer from './components/Customer/customer';

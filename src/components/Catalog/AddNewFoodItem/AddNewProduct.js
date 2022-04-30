@@ -11,7 +11,7 @@ const AddNewProduct = (props) => {
         <div className='form-container'>
           <div className='form-head'>Add New Food Item</div>
           <div className='form-body'>
-            <form>
+            <form onSubmit={props.nextStep}>
               <Row>
                 <Col> <div className="mb-3 p-2">
                   <label className="form-label">Product Name</label>
@@ -97,7 +97,7 @@ const AddNewProduct = (props) => {
                 </div></Col>
 
               </Row>
-              <div className="p-2"><button className='btn btn-primary  ' onClick={props.nextStep} >Next</button></div>
+              <div className="p-2"><button type="submit" className='btn btn-primary  '  >Next</button></div>
 
             </form>
           </div>

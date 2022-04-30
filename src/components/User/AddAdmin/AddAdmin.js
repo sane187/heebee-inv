@@ -9,7 +9,7 @@ const AddAdmin = (props) => {
                 <div className='form-container'>
                     <div className='form-head'>Add New Admin</div>
                     <div className='form-body'>
-                        <Form noValidate validated={props.validated} onSubmit={props.onNext} className='needs-validation'>
+                        <Form onSubmit={props.onNext} className='needs-validation'>
                             <Row>
                                 <Col>
                                     {/* <Form.Group as={Col} controlId="validationCustom01">

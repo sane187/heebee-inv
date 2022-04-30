@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import App from './App';
 import "./assets/fonts/Inter-VariableFont_slnt.ttf";
 import './assets/fonts/Nunito-VariableFont_wght.ttf';
+import "./assets/fonts/PressStart2P-Regular.ttf"
 import './index.css';
 import rootReducer from './store/reducers/rootReducer';
 import thunk from 'redux-thunk';

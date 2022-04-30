@@ -103,7 +103,7 @@ const AllBranches = (props) => {
                     >
                       {({ paginationProps, paginationTableProps }) => (
                         <ToolkitProvider
-                          keyField='EmpId'
+                          keyField='BranchId'
                           columns={columns}
                           data={productData.data.data}
                           search
