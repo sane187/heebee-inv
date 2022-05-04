@@ -125,6 +125,7 @@ const Sidebar = (props) => {
               <SubMenu open={open.open6} onOpenChange={()=>openChange("open6") } title="User" icon={<RiAdminFill/>}>
                 <MenuItem>Add Employee<NavLink to="/employee/addNew" /></MenuItem>
                 <MenuItem>Add Admin<NavLink to="/user" /></MenuItem>
+                <MenuItem>Role<NavLink to="/user/role" /></MenuItem>
                   </SubMenu>
             </Menu>
           </SidebarContent>
