@@ -14,48 +14,20 @@
 }  
 }
 :root {
-    --bg-color: #f4f4f4;
-    --right-sidebar-bg-color: #ecf0f1;
-    --black-color: #17202a;
-    --white-color: #fff;
-    --gray-color: #7b7d7d;
-    --light-gray-color: #ecf0f1;
-    --bg-overlay-color: #292626;
-    --primary-color: #664d03;
-    --primary-dark-color: #473603;
-    --primary-color-light: rgba(102,77,3,.25);
-    --primary-color-light-input: rgba(102,77,3,.12);
-    --primary-color-light-2: rgba(102,77,3,.3);
-    --primary-btn-color-light: #fff;
-    --primary-btn-color-dark: #17202a;
-    --heading-color: #343a40;
-    --warning-color: #f39c12;
-    --brown-color: #2e2d2b;
-    --brown-dark-color: #1f1e1d;
-    --hr-color: #d0d3d4;
-    --normal-color: #f1948a;
-    --silver-color: #b3b6b7;
-    --gold-color: #f7dc6f;
-    --platinum-color: #e5e4e2;
-    --pending-color: #ffa726;
-    --pending-payment-color: #bdbdbd;
-    --processing-color: #26c6da;
-    --accepted-color: #7e57c2;
-    --ready-color: #9ccc65;
-    --complete-color: #66bb6a;
-    --cancelled-color: #ef5350;
-    --closed-color: #78909c;
-    --onhold-color: #ff7043;
-    --pending-light-color: rgba(255,167,38,.25);
-    --pending-payment-light-color: hsla(0,0%,74%,.25);
-    --processing-light-color: rgba(38,198,218,.25);
-    --accepted-light-color: rgba(126,87,194,.25);
-    --ready-light-color: hsla(88,50%,60%,.25);
-    --complete-light-color: rgba(102,187,106,.25);
-    --cancelled-light-color: rgba(239,83,80,.25);
-    --closed-light-color: rgba(120,144,156,.25);
-    --onhold-light-color: rgba(255,112,67,.25);
-    --border-radius: 10px;
+  --primaryColor: #664d03;
+  --primaryDarkColor: #473603;
+  --primaryLightColor25: rgba(102, 77, 3, .25);
+  --primaryLightColorInput: rgba(102, 77, 3, .12);
+  --primaryLightColor30: rgba(102, 77, 3, .3);
+  --bgColor: #f4f4f4;
+  --bgColor2: #ECF0F1;
+  --bgOverlayColor: #292626;
+  --mutedColor: #7B7D7D;
+  --textColor: #17202A;
+  --textMutedColor: #7B7D7D;
+  --whiteColor: #fff;
+
+  
 }
 button:focus{
     box-shadow: 0 0 0 0 !important;
@@ -71,7 +43,7 @@ button:focus{
   }
   
 *::-webkit-scrollbar{
-    width: 5px !important;
+    width: 2px !important;
   }
    
 *::-webkit-scrollbar-track {
@@ -84,3 +56,54 @@ button:focus{
     outline: 1px solid white !important;
     border-radius: 10px !important;
   }
+
+  
+  /* login page */
+  .authentication-bg {
+    position: relative;
+    background-image: url('./assets/images/authentication-bg.jpg');
+    height: 100vh;
+    background-size: cover;
+    background-position: 50%;
+  }
+  .login-card{
+    height: 100vh;
+    background: white;
+    z-index: 1111 !important;
+}
+
+
+.authentication-bg .bg-overlay {
+    background-color: var(--bg-overlay-color);
+}
+
+.bg-overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    opacity: .7;
+    background-color: var(--black-color);
+}
+
+.login-form{
+    width: 90%;
+}
+
+.login-form input{
+    border-radius: var(--border-radius) !important;
+}
+
+.login-form label{
+    color:var(--gray-color) !important;
+}
+
+.login-form .button-primary{
+    background:var(--primary-color);
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}

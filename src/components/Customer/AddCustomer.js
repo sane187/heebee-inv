@@ -11,7 +11,6 @@ const AddCustomer = (props) => {
     const [options, setOptions] = useState([])
     useEffect(() => {
         dispatch(getBranches());
-        console.log("Branch", branch)
       }, [])
       useEffect(() => {
         let array = []
@@ -21,7 +20,6 @@ const AddCustomer = (props) => {
           })
         }
         setOptions(array)
-        console.log(array)
       }, [branch])
     
     function getDropdownButtonLabel({ placeholderButtonLabel, value }) {

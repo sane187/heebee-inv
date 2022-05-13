@@ -91,7 +91,7 @@ const AddAdmin = (props) => {
                                 </div></Col>
 
                             </Row>
-                            <div className="p-2"><button type="submit" className='btn btn-primary btn-lg ' >Next</button></div>
+                            <div className="p-2"><button type="submit" className='btn btn-primary ' >Next</button></div>
 
                         </Form>
                     </div>

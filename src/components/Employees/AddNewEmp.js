@@ -137,7 +137,7 @@ const AddNewEmp = (props) => {
                                 </div></Col>
 
                             </Row>
-                            <div className="p-2"><button className='btn btn-primary btn-lg ' >Submit</button></div>
+                            <div className="p-2"><button className='btn btn-primary ' >Submit</button></div>
                             
                         </form>
                     </div>

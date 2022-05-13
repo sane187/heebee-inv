@@ -10,6 +10,7 @@ import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/rea
 import { useState } from 'react';
 import {TiTick} from "react-icons/ti"
 import {FaTimes} from "react-icons/fa"
+import {FaEdit} from "react-icons/fa"
 const IndividualEmployeeRole = (props) => {
     const [page, setPage] = useState(1);
     const [sizePerPage, setSizePerPage] = useState(10);
@@ -59,7 +60,7 @@ const IndividualEmployeeRole = (props) => {
                 }}>
                 <div
                     className="btn btn-sm btn-secondary ms-0 align-left" >
-                    Edit Read
+                   <FaEdit/> Read
                 </div>
             </div >
         );
@@ -75,7 +76,7 @@ const IndividualEmployeeRole = (props) => {
             }}>
             <div
                 className="btn btn-sm btn-primary ms-0 align-left" >
-                Edit Write
+                <FaEdit/> Write
             </div>
         </div >
         );
@@ -173,7 +174,7 @@ const IndividualEmployeeRole = (props) => {
             </Card.Body>
           </Card>
         </Col>
-                        <Col className="col-12">
+                        <Col className="col-12 mt-4">
                             <Card>
                                 <Card.Body>
                                     <Card.Title className="h4 mb-4 " style={{ borderBottom: "0 solid white", backgroundColor: "#fff", color: "grey" }}>{props.currEmployee.name}'s Data Access </Card.Title>

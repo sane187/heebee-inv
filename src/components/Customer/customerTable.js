@@ -17,7 +17,6 @@ const CustomerTable = (props) => {
   const onClickFunction = (index) => {
     props.setCustomer(productData[index]);
   }
-  console.log(productData);
   function rankFormatter(cell, row, rowIndex, formatExtraData) {
     return (
       <div

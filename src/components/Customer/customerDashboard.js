@@ -12,7 +12,6 @@ const CustomerDashboard=(props)=>{
         { icon: MdFastfood, title: "Total Orders", value: "13676797", rate: "2.4%", desc: "From previous period" },
 
     ]
-   console.log(props);
     return(
         <Container fluid className={props.sideToggle === true ? "closeDash" : "openDash"} style={{ paddingTop: "95px", backgroundColor: "#F1F5F7" }} >
         <Row>

@@ -70,9 +70,7 @@ const Sidebar = (props) => {
     }
 
   }
-  useEffect(()=>{
-     console.log(open)
-  },[open])
+
   function openChange(name){
     for (var i = 1; i < 7; i++) {
       if (name === `open${i}`) {
