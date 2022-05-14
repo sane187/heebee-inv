@@ -334,11 +334,28 @@ const Dashboard = (props) => {
                         <Row>
                             <Col xl={12}>
                             <Card className="mb-4 text-muted d-flex  justify-content-center" style={{ width: '100%',height:"150px", boxShadow: " 0 2px 4px rgb(0 0 0 / 8%)" }}>
-                                <Card.Body className="h-50">
-                                    <h6>Current Franchise : {currentFilter.franchise.franchise_name.toUpperCase()}</h6>
-                                    <h6>Current Branch : {currentFilter.branch.branch_name.toUpperCase()}</h6>
-                                    <h6>Current Year : {current.year}</h6>
-                                </Card.Body>
+                            <Card.Body className="pt-3" style={{ overflowX: "auto", paddingRight: "10px" }} >
+                            <table className="table table-borderless indi-table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Current Franchise</th>
+                                        <td>{currentFilter.franchise.franchise_name.toUpperCase()}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">Current Branch</th>
+                                        <td>{currentFilter.branch.branch_name.toUpperCase()}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Current Year </th>
+                                        <td>{current.year}</td>
+
+                                    </tr>
+                                  
+                                </tbody>
+                            </table>
+                        </Card.Body>
+                             
                             </Card>
                             </Col>
                             <Col xl={12}> 
