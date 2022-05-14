@@ -33,9 +33,9 @@ export const getDashboardCards = (franchiseId,branchId,year,month) => {
     }
 }
 // Revenue Analytics
-export const RevenueAnalyticsDashboard = (franchiseId,branchId,year,month) => {
+export const RevenueAnalyticsDashboard = (franchiseId,branchId,year,month,revFilter) => {
     return (dispatch, getState) => {
-        axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/dashboard_home/revenue_graph?franchise_id=${franchiseId}&branch_id=${branchId}&year=${year}&month=${month}`)
+        axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/dashboard_home/revenue_graph?franchise_id=${franchiseId}&branch_id=${branchId}&year=${year}&month=${month}&filter_by=${revFilter}`)
          .then(dashboard_revenue => {
            
             dispatch({

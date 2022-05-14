@@ -20,7 +20,7 @@ const DoughnutGraph=({options,series})=> {
        }
         return (
             <React.Fragment>
-
+{/* 
                         <div className="float-end">
                             <select className="form-select form-select-sm">
                                 <option defaultValue>Apr</option>
@@ -28,7 +28,7 @@ const DoughnutGraph=({options,series})=> {
                                 <option value="2">Feb</option>
                                 <option value="3">Jan</option>
                             </select>
-                        </div>
+                        </div> */}
                         <h4 className="card-title mb-4" style={{fontSize:"15px", color:"#343a40"}}>Sales Analytics</h4>
 
                         <div id="donut-chart" className="apex-charts">

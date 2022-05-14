@@ -21,6 +21,11 @@ const Dashboard = (props) => {
         month: "Jan",
         year: 2022
     })
+    const [currentRevenuedate, setcurrentRevenue] = useState({
+        month: "Jan",
+        year: 2022
+    })
+    const [revFilter,setRevFilter]=useState("yearly");
     const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const yearArray = () => {
         let arrYear = []
@@ -30,16 +35,18 @@ const Dashboard = (props) => {
         return arrYear
     }
     let dayArr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-    const [currentFilter,setCurrentFilters]=useState({
-        branch:{branch_name:'All',branch_id:'All'},
-        franchise:{franchise_name:'All',franchise_id:'All'}
+    const [currentFilter, setCurrentFilters] = useState({
+        branch: { branch_name: 'All', branch_id: 'All' },
+        franchise: { franchise_name: 'All', franchise_id: 'All' }
     })
     useEffect(() => {
         dispatch(getDashboardFilters("Super Admin"));
-        dispatch(getDashboardCards(currentFilter.franchise.franchise_id,currentFilter.branch.branch_id, current.year, current.month));
-        dispatch(RevenueAnalyticsDashboard(currentFilter.franchise.franchise_id,currentFilter.branch.branch_id,current.year, current.month));
-        dispatch(salesAnalyticsDashboardPie(currentFilter.franchise.franchise_id,currentFilter.branch.branch_id, current.year, current.month));
-    }, [current,currentFilter])
+        dispatch(getDashboardCards(currentFilter.franchise.franchise_id, currentFilter.branch.branch_id, current.year, current.month))
+        dispatch(salesAnalyticsDashboardPie(currentFilter.franchise.franchise_id, currentFilter.branch.branch_id, current.year, current.month));
+    }, [current, currentFilter])
+    useEffect(() => {
+        dispatch(RevenueAnalyticsDashboard(currentFilter.franchise.franchise_id, currentFilter.branch.branch_id, currentRevenuedate.year, currentRevenuedate.month,revFilter));
+        }, [currentRevenuedate, currentFilter,revFilter])
 
     const [salesCarddata, setSalesCard] = useState({
         avg_sales_per_day: 0,
@@ -60,7 +67,6 @@ const Dashboard = (props) => {
         { icon: RiStore2Line, title: "Sales Revenue", value: `₹ ${salesCarddata.sales_revenue}`, rate: "2.4%", desc: "From previous period" },
         { icon: RiBriefcase4Line, title: "Average Sales per Day", value: `₹ ${salesCarddata.avg_sales_per_day}`, rate: "2.4%", desc: "From previous period" },
     ]
-
 
     // doughnut Graph
     const [Doughnutstate, setDoughnutState] = useState({
@@ -166,11 +172,20 @@ const Dashboard = (props) => {
     useEffect(() => {
 
         if (revenueGraph.data) {
+            console.log("revenue data", revenueGraph.data)
+            let points = []
+            let labels =[]
+            for (let i = 0; i < revenueGraph.data.y.length; i++) {
+                points.push(revenueGraph.data.y[i].toFixed(2))
+            }
+            for (let i = 0; i < revenueGraph.data.x.length; i++) {
+                labels.push(String(revenueGraph.data.x[i]))
+            }
             setRevenueAnalytics({
                 series: [{
                     name: '2021',
                     type: 'column',
-                    data: revenueGraph.data.y
+                    data: points
                 }],
                 options: {
                     chart: {
@@ -196,63 +211,76 @@ const Dashboard = (props) => {
                         show: false,
                     },
                     colors: ['#1CBB8C'],
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    labels: labels,
                 }
             })
         }
     }, [revenueGraph])
-   
+
     const monthDrop = () => {
         return monthArray.map((item, index) => {
             return (<option key={index} value={item}>{item}</option>)
         })
     }
-    const handleMonthChange=(e)=>{
-       setcurrent({
-           ...current,month:e.target.value
-       })
+    const handleMonthChange = (e) => {
+        setcurrent({
+            ...current, month: e.target.value
+        })
     }
     const yearDrop = () => {
-        const year=yearArray()
+        const year = yearArray()
         return year.map((item, index) => {
             return (<option key={index} value={item}>{item}</option>)
         })
     }
-    const handleYearChange=(e)=>{
-       setcurrent({
-           ...current,year:e.target.value
-       })
+    const handleYearChange = (e) => {
+        setcurrent({
+            ...current, year: e.target.value
+        })
     }
+    // Revenue ANALYTICS month and year dropdown 
+    const handleMonthChangeRev = (e) => {
+        setcurrentRevenue({
+            ...current, month: e.target.value
+        })
+    }
+
+    const handleYearChangeRev = (e) => {
+        setcurrentRevenue({
+            ...current, year: e.target.value
+        })
+    } 
     // Filters dropdown
-    const [franchiseName,setfranchiseName]=useState('All');
-    const [branchArray,setBranchArray]=useState(['All']);
+    const [franchiseName, setfranchiseName] = useState('All');
+    const [branchArray, setBranchArray] = useState(['All']);
 
-    console.log("current Filters",currentFilter)
-   const FranchiseDrop=()=>{
-       if(filters.data){    return filters.data.data.map((item, index) => {
-        return (<option key={index} value={index}>{item.franchise_name}</option>)
-    })}
+    const FranchiseDrop = () => {
+        if (filters.data) {
+            return filters.data.data.map((item, index) => {
+                return (<option key={index} value={index}>{item.franchise_name}</option>)
+            })
+        }
 
-   }
-   const handleFranchiseChange=(e)=>{
-       const index=e.target.value
-       setfranchiseName(filters.data.data[index].franchise_name)
-       setBranchArray(filters.data.data[index].branches)
-       setCurrentFilters({
-        branch:{branch_name:filters.data.data[index].branches[0].branch_name,branch_id:filters.data.data[index].branches[0].branch_id}, franchise:{franchise_name:filters.data.data[index].franchise_name,franchise_id:filters.data.data[index].franchise_id}
-       })
-   }
-   const BranchDrop=()=>{
-    return branchArray.map((item, index) => {
-        return (<option key={index} value={[item.branch_name,item.branch_id]}>{item.branch_name?item.branch_name:item}</option>)
-    })
-   }
-   const handleBranchChange=(e)=>{
-    const item=e.target.value
-    setCurrentFilters({
-        ...currentFilter, branch:{branch_name:item[0],branch_id:item[1]}
-    })
-}
+    }
+    const handleFranchiseChange = (e) => {
+        const index = e.target.value
+        setfranchiseName(filters.data.data[index].franchise_name)
+        setBranchArray(filters.data.data[index].branches)
+        setCurrentFilters({
+            branch: { branch_name: filters.data.data[index].branches[0].branch_name, branch_id: filters.data.data[index].branches[0].branch_id }, franchise: { franchise_name: filters.data.data[index].franchise_name, franchise_id: filters.data.data[index].franchise_id }
+        })
+    }
+    const BranchDrop = () => {
+        return branchArray.map((item, index) => {
+            return (<option key={index} value={[item.branch_name, item.branch_id]}>{item.branch_name ? item.branch_name : item}</option>)
+        })
+    }
+    const handleBranchChange = (e) => {
+        const item = e.target.value
+        setCurrentFilters({
+            ...currentFilter, branch: { branch_name: item[0], branch_id: item[1] }
+        })
+    }
     return (
         <React.Fragment>
 
@@ -262,30 +290,30 @@ const Dashboard = (props) => {
                     <Col lg={4} sm={6} xs={12}>
                         <Row>
                             <Col>
-                                <div className="form-group">
-                                    <select className="form-control" name="month" onChange={handleMonthChange}>
-                                       {monthDrop()}
+                                <div className="form-group drop-dash">
+                                    <select className="form-control form-select form-select-sm" name="month" onChange={handleMonthChange}>
+                                        {monthDrop()}
                                     </select>
                                 </div>
                             </Col>
                             <Col>
-                                <div className="form-group">
-                                    <select className="form-control" name="year" onChange={handleYearChange}>
-                                       {yearDrop()}
+                                <div className="form-group drop-dash">
+                                    <select className="form-control form-select form-select-sm" name="year" onChange={handleYearChange}>
+                                        {yearDrop()}
                                     </select>
                                 </div>
                             </Col>
                             <Col>
-                                <div className="form-group">
-                                    <select className="form-control" name="year" onChange={handleFranchiseChange}>
-                                       {FranchiseDrop()}
+                                <div className="form-group drop-dash">
+                                    <select className="form-control form-select form-select-sm" name="year" onChange={handleFranchiseChange}>
+                                        {FranchiseDrop()}
                                     </select>
                                 </div>
                             </Col>
                             <Col>
-                                <div className="form-group">
-                                    <select className="form-control" name="year" onChange={handleBranchChange}>
-                                       {BranchDrop()}
+                                <div className="form-group drop-dash">
+                                    <select className="form-control form-select form-select-sm" name="year" onChange={handleBranchChange}>
+                                        {BranchDrop()}
                                     </select>
                                 </div>
                             </Col>
@@ -300,16 +328,28 @@ const Dashboard = (props) => {
                             <MiniWidgets reports={reports} />
                         </Row>
 
-                        <RevenueAnalytics revenueGraph={revenueGraph} revenueAnalytics={revenueAnalytics} />
+                        <RevenueAnalytics setRevFilter={setRevFilter} handleYearChange={handleYearChangeRev} handleMonthChange={handleMonthChangeRev} yearDrop={yearDrop} monthDrop={monthDrop} revenueGraph={revenueGraph} revenueAnalytics={revenueAnalytics} />
                     </Col>
                     <Col lg="4">
-                        <Card style={{ width: '100%', boxShadow: " 0 2px 4px rgb(0 0 0 / 8%)" }}>
+                        <Row>
+                            <Col xl={12}>
+                            <Card className="mb-4 text-muted d-flex  justify-content-center" style={{ width: '100%',height:"150px", boxShadow: " 0 2px 4px rgb(0 0 0 / 8%)" }}>
+                                <Card.Body className="h-50">
+                                    <h6>Current Franchise : {currentFilter.franchise.franchise_name.toUpperCase()}</h6>
+                                    <h6>Current Branch : {currentFilter.branch.branch_name.toUpperCase()}</h6>
+                                    <h6>Current Year : {current.year}</h6>
+                                </Card.Body>
+                            </Card>
+                            </Col>
+                            <Col xl={12}> 
+                            <Card style={{ width: '100%', boxShadow: " 0 2px 4px rgb(0 0 0 / 8%)" }}>
+                                <Card.Body>
+                                    <DoughnutGraph options={Doughnutstate.options} series={Doughnutstate.series} />
+                                </Card.Body>
+                            </Card>
+                            </Col>
+                        </Row>
 
-                            <Card.Body>
-
-                                <DoughnutGraph options={Doughnutstate.options} series={Doughnutstate.series} />
-                            </Card.Body>
-                        </Card>
 
                     </Col>
                 </Row>
