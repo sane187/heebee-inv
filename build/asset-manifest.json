@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.b3bd8ada.css",
-    "main.js": "/static/js/main.0a1be5f9.js",
+    "main.css": "/static/css/main.e0408cb3.css",
+    "main.js": "/static/js/main.7c477fa4.js",
     "static/media/authentication-bg.jpg": "/static/media/authentication-bg.9e6a8a08c0479e543f33.jpg",
     "static/media/Inter-VariableFont_slnt.ttf": "/static/media/Inter-VariableFont_slnt.b4c30855aff392d7e8dc.ttf",
     "static/media/404.gif": "/static/media/404.2e10cfb319b561b6e160.gif",
@@ -9,11 +9,11 @@
     "static/media/PressStart2P-Regular.ttf": "/static/media/PressStart2P-Regular.21503c6a5385ab41dde9.ttf",
     "static/media/logo.png": "/static/media/logo.8d489394cf1911210d5c.png",
     "index.html": "/index.html",
-    "main.b3bd8ada.css.map": "/static/css/main.b3bd8ada.css.map",
-    "main.0a1be5f9.js.map": "/static/js/main.0a1be5f9.js.map"
+    "main.e0408cb3.css.map": "/static/css/main.e0408cb3.css.map",
+    "main.7c477fa4.js.map": "/static/js/main.7c477fa4.js.map"
   },
   "entrypoints": [
-    "static/css/main.b3bd8ada.css",
-    "static/js/main.0a1be5f9.js"
+    "static/css/main.e0408cb3.css",
+    "static/js/main.7c477fa4.js"
   ]
 }
