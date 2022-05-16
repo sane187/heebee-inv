@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, {
@@ -8,23 +8,72 @@ import paginationFactory, {
 import faker from "@faker-js/faker";
 import { Link } from "react-router-dom";
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
+import { useDispatch, useSelector } from "react-redux";
+import { MostOrderPaginationReducer } from "../../../store/reducers/Customer/customerReducer";
+import MostPopularOrderPagination from "./MostPopularOrderPagiantion";
+import { CustomerOrderHistory } from "../../../store/actionCreators/Customers/CustomerAction";
 const IndividualOrderTable = (props) => {
-    const fakeData = () => {
-        let array = [];
-        for (let index = 0; index < 20; index++) {
-          const element = { "Orderid": `${faker.datatype.uuid().slice(0,10)}`, "Ordered Items": `${faker.commerce.product()},${faker.commerce.product()},${faker.commerce.product()}`, "Amount": `${faker.commerce.price()}`, "PaymentMethod": `${faker.finance.transactionType()}`, "PaymentId": `${faker.datatype.uuid().slice(0,7)}`, "coupon": `${faker.datatype.boolean()}`, "Group": `${faker.name.jobDescriptor()}`, "order date": `${String(faker.date.recent()).slice(0,-30)}` }
+  const orderHistory = useSelector(state => state.customer_order_history)
+  const dispatch=useDispatch();
+  function getDateFromUTC(date){
+    var d = new Date(date);
+    let dayArr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+     const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    return(`${dayArr[d.getDay()]} ${monthArray[d.getMonth()]} ${d.getHours()}:${d.getMinutes()} ${d.getFullYear()}`)
+    }
+  
+  const Data = () => {
+    let array = [];
+    if (orderHistory.data) {
+      if (orderHistory.data.orders_data) {
+        for (let i = 0; i < orderHistory.data.orders_data.length; i++) {
+          let item=orderHistory.data.orders_data[i];
+          let individOrder=''
+          for(let x=0;x<item.order_items.length;x++){
+            if(x===item.order_items.length-1){
+              individOrder=individOrder+ item.order_items[x].product_name+" "
+            }
+            else{
+              individOrder=individOrder+ item.order_items[x].product_name+" ,"
+            }
+            
+          }
+      
+          const element = { 
+          "Orderid": item.order_id, 
+          "Ordered Items": `${individOrder}`,
+           "Amount": item.paid_price, 
+           "PaymentMethod": item.payment_method, 
+           "PaymentId": item.payment_id,  
+           "tax": item.tax, 
+           "coupon": item.applied_coupons.coupon, 
+           "order date": `${getDateFromUTC(item.createdAt)}` }
           array.push(element);
         }
-        return array;
       }
-      const products = fakeData();
-  const [productData,setProductData]=useState(products);
-
+    }
+    return array;
+  }
+  const products = Data();
+  const [productData, setProductData] = useState(products);
+  const [pageNum,setPageNum]=useState(1);
   async function handleSubmit(event) {
     event.preventDefault();
-
+  
   }
-
+  const page = useSelector(state => state.mostOrderPage);
+  useEffect(()=>{
+    if(orderHistory.data){  
+      dispatch(CustomerOrderHistory(page,orderHistory.data.customer_data[0].mobile_no))}
+  
+  },[page])
+  useEffect(()=>{
+    if(orderHistory.data){
+      console.log("page Num",pageNum)
+      setPageNum(Math.ceil(orderHistory.data.total_orders/10))}
+      setProductData(Data())
+  },[orderHistory])
   const columns = [
     {
       dataField: 'Orderid',
@@ -43,6 +92,14 @@ const IndividualOrderTable = (props) => {
       text: 'Payment Method',
       sort: true
     }, {
+      dataField: 'tax',
+      text: 'Tax',
+      sort: false
+    }, {
+      dataField: 'order date',
+      text: 'Order date',
+      sort: true
+    }, {
       dataField: 'PaymentId',
       text: 'PaymentId',
       sort: true
@@ -50,15 +107,7 @@ const IndividualOrderTable = (props) => {
       dataField: 'coupon',
       text: 'Coupon',
       sort: false
-    },{
-        dataField: 'Group',
-        text: 'Group',
-        sort: false
-      },{
-        dataField: 'order date',
-        text: 'Order date',
-        sort: true
-      }
+    }
   ];
 
   const defaultSorted = [{
@@ -71,7 +120,7 @@ const IndividualOrderTable = (props) => {
     totalSize: productData.length, // replace later with size(customers),
     custom: true,
   }
-
+  
   const { SearchBar } = Search;
 
   return (
@@ -135,21 +184,8 @@ const IndividualOrderTable = (props) => {
                               </Col>
                             </Row>
 
-                            <Row className="align-items-md-center mt-30">
-                              <Col className="inner-custom-pagination d-flex">
-                                <div className="d-inline">
-                                  <SizePerPageDropdownStandalone
-                                    {...paginationProps}
-                                  />
-                                </div>
-                                <div className="text-md-right ms-auto">
-                                  <PaginationListStandalone
-
-                                    {...paginationProps}
-                                    className="table-pagination"
-                                  />
-                                </div>
-                              </Col>
+                            <Row>
+                              <MostPopularOrderPagination pageNum={pageNum} />
                             </Row>
                           </React.Fragment>
                         )
@@ -161,7 +197,7 @@ const IndividualOrderTable = (props) => {
               </Card>
             </Col>
           </Row>
-          </form>
+        </form>
       </div>
     </React.Fragment>
   )

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, {
@@ -9,18 +9,16 @@ import { Link } from "react-router-dom";
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import { useState } from 'react';
 import faker from "@faker-js/faker";
+import { useSelector } from "react-redux";
 const MostPopularOrder = props => {
-    const fakeData = () => {
-        let array = [];
-        for (let index = 0; index < 5; index++) {
-          const element = { "Num":index,"MostPop": `${faker.commerce.product()}`, "TotalPurchase": `₹${faker.commerce.price()*100}`, "AvgPurchase": `${faker.commerce.price()}`}
-          array.push(element);
-        }
-        return array;
-      }
-      const products = fakeData();
-  const [productData,setProductData]=useState(products);
+  const orderHistory = useSelector(state => state.customer_order_history)
 
+  const [productData,setProductData]=useState(orderHistory.data.popular_purchase);
+  useEffect(()=>{
+     if(orderHistory.data.status){
+        setProductData(orderHistory.data.popular_purchase)
+     }
+  },[orderHistory])
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -28,15 +26,15 @@ const MostPopularOrder = props => {
 
   const columns = [
     {
-      dataField: 'MostPop',
+      dataField: 'name',
       text: 'Most Popular Item',
       sort: true
     }, {
-      dataField: 'TotalPurchase',
+      dataField: 'Total_purchase',
       text: 'Total Purchase',
       sort: true
     }, {
-      dataField: 'AvgPurchase',
+      dataField: 'avg_purchase',
       text: 'Average Purchase',
       sort: false
     }
@@ -66,13 +64,13 @@ const MostPopularOrder = props => {
   
                     <PaginationProvider
                       pagination={paginationFactory(pageOptions)}
-                      keyField='Num'
+                      keyField='name'
                       columns={columns}
                       data={productData}
                     >
                       {({ paginationProps, paginationTableProps }) => (
                         <ToolkitProvider
-                          keyField='Num'
+                          keyField='name'
                           columns={columns}
                           data={productData}
                           search

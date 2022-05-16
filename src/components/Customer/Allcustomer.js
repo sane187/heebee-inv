@@ -1,8 +1,8 @@
 import { Container,Row,Col} from "react-bootstrap";
 import React from "react";
 import CustomerTable from "./customerTable";
+import { fetchCustomers } from "../../store/actionCreators/Customers/CustomerAction";
 const AllCustomer = (props) => {
-
 
     return (
         <React.Fragment>

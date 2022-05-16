@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Row, Col, Card } from "react-bootstrap";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, {
@@ -9,35 +9,100 @@ import { Link } from "react-router-dom";
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import "../../css/customer/customerTable.css";
 import { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import CustomerTablePagination from "./CustomerTablePagination";
+import { toast } from "react-toastify";
+import { CustomerOrderHistory } from "../../store/actionCreators/Customers/CustomerAction";
 const CustomerTable = (props) => {
- 
-  const [page,setPage]=useState(1);
-  const [sizePerPage,setSizePerPage]=useState(10);
-  const [productData,setProductData]=useState(props.products);
-  const onClickFunction = (index) => {
-    props.setCustomer(productData[index]);
+ const dispatch=useDispatch()
+  const [pageNum, setPageNum] = useState(1);
+  const page = useSelector(state => state.mostOrderPage);
+  const [productData, setProductData] = useState([{
+    name:null,
+    telephone:null,
+    zip:null,
+    city:null,
+    franchise:null,
+    'order date':null,  
+    
+  }]);
+  const customers = useSelector(state => state.customers);
+  const pageOH = useSelector(state => state.mostOrderPage);
+  const onClickFunction = (index,row) => {
+    // props.setCustomer(productData[index]);
+    dispatch(CustomerOrderHistory(1,row.telephone))
+  }
+  console.log(pageNum)
+  useEffect(()=>{
+    let arrayCust=[];
+    if(customers.data){
+      console.log("customers",customers.data.data.first_name)
+      setPageNum(Math.ceil(customers.data.total_customers/10))
+      for(let i=0 ;i<customers.data.data.length;i++){
+        arrayCust.push({
+          name:`${customers.data.data[i].first_name} ${(customers.data.data[i].last_name?customers.data.data[i].last_name:"")}`,
+          telephone:customers.data.data[i].mobile_no,
+          type:customers.data.data[i].customer_type,
+          city:customers.data.data[i].branch,
+          dob:customers.data.data[i].date_of_birth,
+          gender:customers.data.data[i].gender,
+          'mail':customers.data.data[i].email,  
+        })
+      }
+      setProductData(arrayCust)
+    }
+  },[customers])
+  console.log(customers)
+  const onClickError=()=>{
+    toast.error(`No Contact Available`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined, theme: "colored"
+  })
   }
   function rankFormatter(cell, row, rowIndex, formatExtraData) {
-    return (
-      <div
-        style={{
-          textAlign: "center",
-          cursor: "pointer",
-          lineHeight: "normal"
-        }}>
-        <Link 
-          exact="true"
-          to="/customer/individual"
-          onClick={() => onClickFunction(rowIndex)}
-          className="btn btn-sm btn-warning" >
-          View
-        </Link>
-      </div >
-    );
+    if(row.telephone){
+      return (
+        <div
+          style={{
+            textAlign: "center",
+            cursor: "pointer",
+            lineHeight: "normal"
+          }}>
+          <Link
+            exact="true"
+            to="/customer/individual"
+            onClick={() => onClickFunction(rowIndex,row)}
+            className="btn btn-sm btn-warning" >
+            View
+          </Link>
+        </div >
+      );
+    }
+    else{
+      return (
+        <div
+          style={{
+            textAlign: "center",
+            cursor: "pointer",
+            lineHeight: "normal"
+          }}>
+          <div
+            exact="true"
+            onClick={() => onClickError(rowIndex)}
+            className="btn btn-sm btn-warning" >
+            View
+          </div>
+        </div >
+      );
+    }
   }
   async function handleSubmit(event) {
     event.preventDefault();
-
   }
 
   const columns = [
@@ -50,22 +115,22 @@ const CustomerTable = (props) => {
       text: 'Telephone',
       sort: false
     }, {
-      dataField: 'zip',
-      text: 'Zip',
+      dataField: 'type',
+      text: 'Type',
       sort: false
     }, {
       dataField: 'city',
       text: 'City',
       sort: true
     }, {
-      dataField: 'franchise',
-      text: 'Franchise Address',
+      dataField: 'dob',
+      text: 'DOB',
       sort: true
     }, {
-      dataField: 'order date',
-      text: 'Order Date',
+      dataField: 'gender',
+      text: 'Gender',
       sort: false
-    }, {
+    },{
       dataField: 'view',
       text: 'Actions',
       isDummyField: true,
@@ -147,23 +212,13 @@ const CustomerTable = (props) => {
                                 </div>
                               </Col>
                             </Row>
-
-                            <Row className="align-items-md-center mt-30">
-                              <Col className="inner-custom-pagination d-flex">
-                                <div className="d-inline">
-                                  <SizePerPageDropdownStandalone
-                                    {...paginationProps}
-                                  />
-                                </div>
-                                <div className="text-md-right ms-auto">
-                                  <PaginationListStandalone
-
-                                    {...paginationProps}
-                                    className="table-pagination"
-                                  />
-                                </div>
-                              </Col>
+                            <Row>
+                            <Col xl={12}>
+                            <CustomerTablePagination pageNum={pageNum}/>
+                            </Col>
+                            
                             </Row>
+
                           </React.Fragment>
                         )
                         }
@@ -174,7 +229,7 @@ const CustomerTable = (props) => {
               </Card>
             </Col>
           </Row>
-          </form>
+        </form>
       </div>
     </React.Fragment>
   )
