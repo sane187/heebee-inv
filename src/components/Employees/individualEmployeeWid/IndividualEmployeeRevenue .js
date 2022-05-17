@@ -1,11 +1,43 @@
-import React, { Component } from 'react';
-import { Card,ButtonGroup,Button } from "react-bootstrap";
+import React, { Component, useEffect, useState } from 'react';
+import { Card, ButtonGroup, Button } from "react-bootstrap";
 //Import Charts
 import ReactApexChart from 'react-apexcharts';
-class IndividualEmployeeRevenue extends Component {
-  
-    
-    state = {
+import { useDispatch, useSelector } from 'react-redux';
+import { EmployeeSalesAnalytics } from '../../../store/actionCreators/Employees/EmployeeAction';
+const IndividualEmployeeRevenue = () => {
+    const dispatch = useDispatch()
+    const employee = useSelector(state => state.employee)
+    const data= useSelector(state=>state.employee_sales_analytics)
+    const currYear = new Date().getFullYear()
+    const [current, setcurrent] = useState({
+        filter: "weekly",
+        year: "All"
+    })
+    const yearArray = () => {
+        let arrYear = ["All"]
+        for (let i = 0; i < currYear - 2017 + 1; i++) {
+            arrYear.push(2017 + i);
+        }
+        return arrYear
+    }
+    const yearDrop = () => {
+        const year = yearArray()
+        return year.map((item, index) => {
+            if (index ===0) {
+                return (<option key={index} value={item} selected>{item}</option>)
+            }
+            else {
+                return (<option key={index} value={item}>{item}</option>)
+            }
+        })
+    }
+    const handleYearChange = (e) => {
+        setcurrent({
+            ...current, year: e.target.value
+        })
+    }
+
+    const [state, setState] = useState({
         series: [{
             name: '2021',
             type: 'column',
@@ -37,32 +69,125 @@ class IndividualEmployeeRevenue extends Component {
             colors: ['#6F7BD9', '#1cbb8c'],
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         }
+    })
+    const handleChange = (e) => {
+        setcurrent({ ...current, filter: e.target.value })
     }
-    render() {
-        return (
-            <React.Fragment>
-                <Card className="mt-4">
-                    <Card.Body>
+    useEffect(() => {
+        if (employee.data) {
+            dispatch(EmployeeSalesAnalytics(employee.data.data.employee_id, current.filter, current.year))
+        }
+
+    }, [current])
+    useEffect(() => {
+        if (data.data) {
+           if(data.data.status==='failure'){
+               setState({
+                series: [{
+                    type: 'column',
+                    data: []
+                }],
+                options: {
+                    chart: {
+                        toolbar: {
+                            show: false,
+                        }
+                    },
+                    stroke: {
+                        width: [0, 3],
+                        curve: 'smooth'
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: '20%',
+                        },
+                    },
+                    dataLabels: {
+                        enabled: false,
+                    },
+        
+                    legend: {
+                        show: false,
+                    },
+                    colors: [ '#1cbb8c'],
+                    labels: [],
+                }
+            })
+           }
+           else{
+            setState({
+                series: [{
+                    type: 'column',
+                    data: data.data.y
+                }],
+                options: {
+                    chart: {
+                        toolbar: {
+                            show: false,
+                        }
+                    },
+                    stroke: {
+                        width: [0, 3],
+                        curve: 'smooth'
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: '20%',
+                        },
+                    },
+                    dataLabels: {
+                        enabled: false,
+                    },
+        
+                    legend: {
+                        show: false,
+                    },
+                    colors: [ '#1cbb8c'],
+                    labels: data.data.x,
+                }
+            })
+           }
+            
+        }
+
+    }, [data])
+
+
+
+    return (
+        <React.Fragment>
+            <Card className="mt-4">
+                <Card.Body>
+
                     <div className="float-end d-none d-md-inline-block">
-                            <ButtonGroup className="mb-2 graph-buttons" style={{fontFamily:"Nunito,sans-serif"}}>
-                                <Button size="sm" variant="light" style={{backgroundColor:"#EFF2F7",fontSize:"13px"}} type="button">Today</Button>
-                                <Button size="sm" variant="light" style={{backgroundColor:"#EFF2F7",fontSize:"13px"}} type="button">Weekly</Button>
-                                <Button size="sm" variant="light" style={{backgroundColor:"#EFF2F7",fontSize:"13px"}} type="button">Monthly</Button>
-                            </ButtonGroup>
+                        <ButtonGroup className="mb-2 graph-buttons" style={{ fontFamily: "Nunito,sans-serif" }}>
+                            <Button size="sm" variant="light" style={{ backgroundColor: "#EFF2F7", fontSize: "13px" }} type="button" value={"weekly"} onClick={handleChange}>Weekly</Button>
+                            <Button size="sm" variant="light" style={{ backgroundColor: "#EFF2F7", fontSize: "13px" }} type="button" value={"monthly"} onClick={handleChange}>Monthly</Button>
+                            <Button size="sm" variant="light" style={{ backgroundColor: "#EFF2F7", fontSize: "13px" }} type="button" value={"yearly"} onClick={handleChange}>Yearly</Button>
+                        </ButtonGroup>
+                    </div>
+                    <div className="float-end d-none d-md-inline-block">
+                        <div className="form-group dash-rev">
+                            <select className="form-control form-select form-select-sm" name="month" onChange={handleYearChange}>
+                                {yearDrop()}
+                            </select>
                         </div>
-                        <h4 className="card-title mb-4 revenue" >Employee Sales Analytics</h4>
+                    </div>
+                    <h4 className="card-title mb-4 revenue" >Employee Sales Analytics</h4>
 
-                        <div>
-                            <div id="line-column-chart" className="apex-charts" dir="ltr">
-                                <ReactApexChart options={this.state.options} series={this.state.series} type="line" height="280" />
-                            </div>
+                    <div>
+                        <div id="line-column-chart" className="apex-charts" dir="ltr">
+                            <ReactApexChart options={state.options} series={state.series} type="line" height="280" />
                         </div>
-                    </Card.Body>
+                    </div>
+                </Card.Body>
 
-                </Card>
-            </React.Fragment>
-        );
-    }
+            </Card>
+        </React.Fragment>
+    );
+
 }
 
 export default IndividualEmployeeRevenue;

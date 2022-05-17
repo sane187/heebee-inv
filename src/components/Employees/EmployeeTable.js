@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Row, Col, Card } from "react-bootstrap";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, {
@@ -9,15 +9,30 @@ import { Link } from "react-router-dom";
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import "../../css/customer/customerTable.css";
 import { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import EmployeePagination from "./EmployeePagination";
+import { fetchSingleEmployee } from "../../store/actionCreators/Employees/EmployeeAction";
 
 const EmployeeTable = props => {
   const [page, setPage] = useState(1);
+  const dispatch = useDispatch()
   const [sizePerPage, setSizePerPage] = useState(10);
   const [productData, setProductData] = useState(props.employee);
-  const onClickFunction = (index) => {
-    props.setEmployee(index);
+  const onClickFunction = (row) => {
+    dispatch(fetchSingleEmployee(row.employee_id))
   }
-  console.log(props);
+  const employees = useSelector(state => state.employees);
+  useEffect(() => {
+    const fakeData = () => {
+      setPage(Math.ceil(employees.data.total_employees / 10))
+      setProductData(employees.data.data)
+    }
+    if (employees.data) {
+      if (employees.data.status !== "failure") {
+        fakeData()
+      }
+    }
+  }, [employees])
   function rankFormatter(cell, row, rowIndex, formatExtraData) {
     return (
       <div
@@ -43,16 +58,21 @@ const EmployeeTable = props => {
 
   const columns = [
     {
-      dataField: 'EmpId',
-      text: 'EmpId',
-      sort: false
+      dataField: 'employee_id',
+      text: 'Employee ID',
+      sort: true
+
     },
     {
-      dataField: 'name',
+      dataField: 'full_name',
       text: 'Full Name',
       sort: true
     }, {
-      dataField: 'telephone',
+      dataField: 'employee_role',
+      text: 'Employee Role',
+      sort: false
+    }, {
+      dataField: 'mobile_no',
       text: 'Phone',
       sort: false
     }, {
@@ -64,7 +84,7 @@ const EmployeeTable = props => {
       text: 'Email',
       sort: false
     }, {
-      dataField: 'DOB',
+      dataField: 'date_of_birth',
       text: 'DOB',
       sort: true
     }, {
@@ -72,11 +92,7 @@ const EmployeeTable = props => {
       text: 'Status',
       sort: true
     }, {
-      dataField: 'token',
-      text: 'Token',
-      sort: true
-    }, {
-      dataField: 'Branchname',
+      dataField: 'branch',
       text: 'Branch',
       sort: true
     }, {
@@ -104,6 +120,7 @@ const EmployeeTable = props => {
   }
 
   const { SearchBar } = Search;
+
   return (
     <React.Fragment>
       <div className="page-content ">
@@ -116,13 +133,13 @@ const EmployeeTable = props => {
 
                   <PaginationProvider
                     pagination={paginationFactory(pageOptions)}
-                    keyField='EmpId'
+                    keyField='Employee ID'
                     columns={columns}
                     data={productData}
                   >
                     {({ paginationProps, paginationTableProps }) => (
                       <ToolkitProvider
-                        keyField='EmpId'
+                        keyField='Employee ID'
                         columns={columns}
                         data={productData}
                         search
@@ -135,7 +152,9 @@ const EmployeeTable = props => {
                                 <div className="search-box me-2 mb-2 d-inline-block">
                                   <div className="position-relative">
                                     <SearchBar
+                                      srText=""
                                       {...toolkitProps.searchProps}
+                                      onChange={e => { console.log(e) }}
                                     />
                                     <i className="search-box chat-search-box" />
                                   </div>
@@ -147,7 +166,7 @@ const EmployeeTable = props => {
                               <Col xl="12">
                                 <div className="table-responsive">
                                   <BootstrapTable
-                             
+
                                     keyField={"EmpId"}
                                     responsive
                                     bordered={false}
@@ -165,22 +184,8 @@ const EmployeeTable = props => {
                                 </div>
                               </Col>
                             </Row>
-
-                            <Row className="align-items-md-center mt-30">
-                              <Col className="inner-custom-pagination d-flex">
-                                <div className="d-inline">
-                                  <SizePerPageDropdownStandalone
-                                    {...paginationProps}
-                                  />
-                                </div>
-                                <div className="text-md-right ms-auto">
-                                  <PaginationListStandalone
-
-                                    {...paginationProps}
-                                    className="table-pagination"
-                                  />
-                                </div>
-                              </Col>
+                            <Row>
+                              <EmployeePagination pageNum={page} />
                             </Row>
                           </React.Fragment>
                         )

@@ -3,10 +3,10 @@ import ReactMultiselectCheckboxes from 'react-multiselect-checkboxes/lib/ReactMu
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getBranches } from '../../../store/actionCreators/Branch/BranchAction';
-import { getAllProducts } from '../../../store/actionCreators/Catalog/getProductsAction';
 import AddCategoryToBranches from './AddCategoryToBranches';
 import AddNewCategory from './AddNewCategory';
 import "../../../css/catalog/common.css"
+import { addNewCategory } from '../../../store/actionCreators/Catalog/Catalog';
 const AddNewCatMain = (props) => {
     // step1 vars
     const branch = useSelector(state => state.branch)
@@ -18,12 +18,12 @@ const AddNewCatMain = (props) => {
     const [step, setStep] = useState(1)
     const [catName, setCatname] = useState({
         name: "",
-        description: ""
+        description: "",
+        items_available: 0
     })
 
     useEffect(() => {
         dispatch(getBranches());
-        dispatch(getAllProducts());
     }, [])
     // getting branches in a particular format
     useEffect(() => {
@@ -34,7 +34,7 @@ const AddNewCatMain = (props) => {
             })
         }
         setOptions(array)
-        console.log(array)
+
     }, [branch])
     // HELPER FUNCTIONS branches  FOR CHECKBOXDROPDOWN
     function getDropdownButtonLabel({ placeholderButtonLabel, value }) {
@@ -65,7 +65,7 @@ const AddNewCatMain = (props) => {
 
         if (options) {
             return <div className='categorySelect'><ReactMultiselectCheckboxes
-      
+
                 options={[{ label: "All", value: "*" }, ...options]}
                 placeholderButtonLabel="Branches"
                 getDropdownButtonLabel={getDropdownButtonLabel}
@@ -104,18 +104,14 @@ const AddNewCatMain = (props) => {
     // OnClick for first form 
     const onClickCat = (e) => {
         if (selectedBranches.length > 0) {
-            let SelectedB = []
-            selectedBranches.map((item, index) => {
-                SelectedB.push(item.value)
-            })
             setStep(step + 1)
             e.preventDefault();
 
-            console.log(step, catName, SelectedB)
+
             // dispatch(addNewCategory(catName.name,catName.description,preview,SelectedB))
         }
         else {
-            console.log("insede insfni")
+
             toast.error(`please add branches`, {
                 position: "top-right",
                 autoClose: 3000,
@@ -176,7 +172,7 @@ const AddNewCatMain = (props) => {
     const displayCategory = () => {
 
         if (optionsP) {
-            return <div id="catDropdown" className='categorySelect' style={{paddingBottom:"400px"}}><ReactMultiselectCheckboxes
+            return <div id="catDropdown" className='categorySelect' style={{ paddingBottom: "400px" }}><ReactMultiselectCheckboxes
                 options={[{ label: "All", value: "*" }, ...optionsP]}
                 placeholderButtonLabel="Products"
                 getDropdownButtonLabel={getDropdownButtonLabel1}
@@ -190,14 +186,63 @@ const AddNewCatMain = (props) => {
         }
 
     }
-    //    STEP2 ENDS
 
+    //    STEP2 ENDS
+    const onSubmit = (e) => {
+        if (selectedProducts.length > 0) {
+
+            let productString = "";
+            for (let i = 0; i < selectedProducts.length; i++) {
+                if (selectedProducts[i].label === "All") {
+                    productString = "All"
+                    break;
+                }
+                else {
+                    if (i === selectedProducts.length - 1) {
+                        productString = productString + selectedProducts[i].value
+                    }
+                    else {
+                        productString = productString + selectedProducts[i].value + ","
+                    }
+
+                }
+            }
+            let branchString = "";
+            for (let i = 0; i < selectedBranches.length; i++) {
+                if (selectedBranches[i].label === "All") {
+                    branchString = "All"
+                    break;
+                }
+                else {
+                    if (i === selectedBranches.length - 1) {
+                        branchString = branchString + selectedBranches[i].value
+                    }
+                    else {
+                        branchString = branchString + selectedBranches[i].value + ","
+                    }
+
+                }
+            }
+            const object = {
+                category_name: catName.name,
+                description: catName.description,
+                branch_id: branchString,
+                image: uploadedImage,
+                product_id: productString,
+                items_available: catName.items_available
+            }
+            addNewCategory(object)
+        }
+        e.preventDefault()
+
+
+    }
     // logic for multipart form
     const main = () => {
         if (step === 1) {
             return (
                 <><AddNewCategory
-                
+
                     sideToggle={props.sideToggle}
                     catName={catName}
                     handleChange={handleChange}
@@ -215,6 +260,7 @@ const AddNewCatMain = (props) => {
                 sideToggle={props.sideToggle}
                 displayCategory={displayCategory}
                 setStep={setStep}
+                onSubmit={onSubmit}
             />
 
             </>

@@ -10,24 +10,36 @@ import Employee from './components/Employees/employee';
 import AllCustomer from './components/Customer/Allcustomer';
 import IndivudualCustomer from './components/Customer/individualCustomers';
 import Error404 from './components/error404';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from './components/footer';
 import Branch from './components/Branch/Branch';
 import Catalog from './components/Catalog/Catalog';
 import { ToastContainer } from 'react-toastify';
 import User from './components/User/user';
 import Login from './components/authentication/Login';
+import { useDispatch } from 'react-redux';
+import { getAddons, getAllCategories, getAllProducts } from './store/actionCreators/Catalog/Catalog';
+import { getAllFranchise } from './store/actionCreators/Franchise/AddNewFranchiseAction';
+import { getBranches } from './store/actionCreators/Branch/BranchAction';
 function App() {
   const [sideToggle, setSideToggle] = useState(false);
   const handle = useFullScreenHandle();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllCategories())
+    dispatch(getAllProducts())
+    dispatch(getAddons())
+dispatch(getBranches())
+      dispatch(getAllFranchise());
 
+  }, [])
   return (
     <Router>
       <FullScreen handle={handle}>
         <React.Fragment>
           <Sidebar handle={handle} setSideToggle={setSideToggle} sideToggle={sideToggle} />
           <Routes>
-          <Route path='/' element={<Dashboard sideToggle={sideToggle} />}></Route>
+            <Route path='/' element={<Dashboard sideToggle={sideToggle} />}></Route>
             <Route path='/login' element={<Login sideToggle={sideToggle} />}></Route>
             <Route path='/customer/*' element={<Customer sideToggle={sideToggle} />}></Route>
             <Route path='/employee/*' element={<Employee sideToggle={sideToggle} />}></Route>
@@ -38,10 +50,10 @@ function App() {
           </Routes>
           <Footer />
         </React.Fragment>
-       
+
       </FullScreen>
       <ToastContainer />
-     
+
     </Router>
 
   );

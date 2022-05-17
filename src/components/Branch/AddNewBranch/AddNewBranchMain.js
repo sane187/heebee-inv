@@ -19,9 +19,7 @@ const AddNewBranchMain = (props) => {
         region: "",
         address: ""
     })
-    useEffect(() => {
-        dispatch(getAllFranchise());
-    }, [])
+ 
     useEffect(() => {
         let array = []
         if (franchise.data) {
@@ -30,7 +28,7 @@ const AddNewBranchMain = (props) => {
             })
         }
         setOptions(array)
-        console.log(array)
+
     }, [franchise])
 
     function getDropdownButtonLabel({ placeholderButtonLabel, value }) {
@@ -85,7 +83,6 @@ const AddNewBranchMain = (props) => {
             // dispatch(addNewCategory(catName.name,catName.description,preview,SelectedB))
         }
         else {
-            console.log("insede insfni")
             toast.error(`please add Franchise`, {
                 position: "top-right",
                 autoClose: 3000,

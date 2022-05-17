@@ -77,7 +77,7 @@ const CustomerDashboard = (props) => {
         // dispatch(CustomerAnalyticsGraph(currentFilter.franchise.franchise_id, currentFilter.branch.branch_id, current.month, current.year))
         dispatch(CustomerAnalyticsPie(currentFilter.franchise.franchise_id, currentFilter.branch.branch_id))
     }, [current, currentFilter])
-    
+    console.log("currentFilters",currentFilter);
     useEffect(() => {
         dispatch(RevenueAnalyticsDashboard(currentFilter.franchise.franchise_id, currentFilter.branch.branch_id, currentRevenuedate.year, currentRevenuedate.month,revFilter));
         }, [currentRevenuedate, currentFilter,revFilter])
@@ -282,11 +282,11 @@ const CustomerDashboard = (props) => {
     }
     const BranchDrop = () => {
         return branchArray.map((item, index) => {
-            return (<option key={index} value={[item.branch_name, item.branch_id]}>{item.branch_name ? item.branch_name : item}</option>)
+            return (<option key={index} value={`["${item.branch_name}","${item.branch_id}"]`}>{item.branch_name ? item.branch_name : item}</option>)
         })
     }
     const handleBranchChange = (e) => {
-        const item = e.target.value
+        let item =JSON.parse(e.target.value)
         setCurrentFilters({
             ...currentFilter, branch: { branch_name: item[0], branch_id: item[1] }
         })

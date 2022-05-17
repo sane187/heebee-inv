@@ -9,7 +9,7 @@ import { RiStore2Line } from "react-icons/ri";
 import { RiBriefcase4Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { getDashboardCards, getDashboardFilters, RevenueAnalyticsDashboard, salesAnalyticsDashboardPie } from "../../store/actionCreators/dashboard/dasboardActions";
-import { Dropdown } from "bootstrap";
+
 const Dashboard = (props) => {
     const filters = useSelector(state => state.dashboard_filters);
     const cards = useSelector(state => state.dashboard_card);
@@ -25,6 +25,7 @@ const Dashboard = (props) => {
         month: "Jan",
         year: 2022
     })
+
     const [revFilter,setRevFilter]=useState("yearly");
     const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const yearArray = () => {
@@ -172,7 +173,7 @@ const Dashboard = (props) => {
     useEffect(() => {
 
         if (revenueGraph.data) {
-            console.log("revenue data", revenueGraph.data)
+          
             let points = []
             let labels =[]
             for (let i = 0; i < revenueGraph.data.y.length; i++) {
@@ -272,11 +273,11 @@ const Dashboard = (props) => {
     }
     const BranchDrop = () => {
         return branchArray.map((item, index) => {
-            return (<option key={index} value={[item.branch_name, item.branch_id]}>{item.branch_name ? item.branch_name : item}</option>)
+            return (<option key={index} value={`["${item.branch_name}","${item.branch_id}"]`}>{item.branch_name ? item.branch_name : item}</option>)
         })
     }
     const handleBranchChange = (e) => {
-        const item = e.target.value
+        let item =JSON.parse(e.target.value)
         setCurrentFilters({
             ...currentFilter, branch: { branch_name: item[0], branch_id: item[1] }
         })

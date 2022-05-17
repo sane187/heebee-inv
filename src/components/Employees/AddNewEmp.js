@@ -9,9 +9,27 @@ const AddNewEmp = (props) => {
     const branch = useSelector(state => state.branch)
     const [selectedBranches, setSelected] = useState([]);
     const [options, setOptions] = useState([])
+    const [state,setState]=useState({
+      full_name:"",
+      mobile_no:"",
+      email:"",
+    password:"",
+      profile_pic:"https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_dark_1x_r2.png",
+      date_of_birth:"",
+      address:"",
+      branches:"",
+      branch_id:"",
+      employee_role:"",
+      employee_role_id:"",
+      gender:""
+    })
+    const onStateChange=(input)=>(e)=>{
+     setState({...state,[input]:e.target.value})
+    }
+
     useEffect(() => {
         dispatch(getBranches());
-        console.log("Branch", branch)
+       
       }, [])
       useEffect(() => {
         let array = []
@@ -23,7 +41,7 @@ const AddNewEmp = (props) => {
         setOptions(array)
         console.log(array)
       }, [branch])
-    
+      console.log("Branch", selectedBranches)
     function getDropdownButtonLabel({ placeholderButtonLabel, value }) {
         if (value && value.some((o) => o.value === "*")) {
           return `${placeholderButtonLabel}: All`;
@@ -73,35 +91,35 @@ const AddNewEmp = (props) => {
                             <Row>
                                 <Col> <div className="mb-3 p-2">
                                     <label className="form-label">Full Name</label>
-                                    <input type="text" className="form-control" aria-describedby="emailHelp" required />
+                                    <input  value={state.full_name} onChange={onStateChange('full_name')} type="text" className="form-control" aria-describedby="emailHelp" required />
                                 </div></Col>
                                 <Col> <div className="mb-3 p-2">
                                     <label className="form-label">Mobile Number</label>
-                                    <input type="text" className="form-control" aria-describedby="emailHelp" required />
+                                    <input value={state.mobile_no} onChange={onStateChange('mobile_no')} type="text" className="form-control" aria-describedby="emailHelp" required />
                                 </div></Col>
 
                             </Row>
                             <Row>
                                 <Col> <div className="mb-3 p-2">
                                     <label className="form-label">Email</label>
-                                    <input type="email" className="form-control" aria-describedby="emailHelp" required />
+                                    <input value={state.email} onChange={onStateChange('email')} type="email" className="form-control" aria-describedby="emailHelp" required />
                                 </div></Col>
                                 <Col> <div className="mb-3 p-2">
                                     <label className="form-label">Password</label>
-                                    <input type="password" className="form-control" aria-describedby="emailHelp" required  />
+                                    <input value={state.password} onChange={onStateChange('password')} type="password" className="form-control" aria-describedby="emailHelp" required  />
                                 </div></Col>
 
                             </Row>
                             <Row>
                                 <Col> <div className="mb-3 p-2">
                                     <label className="form-label">Date Of Birth</label>
-                                    <input type="date" className="form-control" aria-describedby="emailHelp" required  />
+                                    <input value={state.date_of_birth} onChange={onStateChange('date_of_birth')} type="date" className="form-control" aria-describedby="emailHelp" required  />
                                 </div></Col>
                                 <Col> <div className="mb-3 p-2">
                                     <label className="form-label">Status</label>
-                                    <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                    <select onChange={onStateChange('status')} className="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
                                         <option defaultValue={"Active"}>Active</option>
-                                        <option value="1">Inactive</option>
+                                        <option value="Inactive">Inactive</option>
                                     </select>
                                 </div></Col>
                                 <Col> <div className="mb-3 p-2">
@@ -110,14 +128,14 @@ const AddNewEmp = (props) => {
                                 </div></Col>
                                 <Col> <div className="mb-3 p-2">
                                     <label className="form-label">Gender</label>
-                                    <div className='d-flex'>
+                                    <div className='d-flex' >
                                         <div className="form-check me-3">
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                                            <input value={"male"} onChange={onStateChange('gender')} className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
                                             <label className="form-check-label" htmlFor="flexRadioDefault1">
                                                 Male
                                             </label></div>
                                         <div className="form-check ">
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                                            <input value={"female"} onChange={onStateChange('gender')} className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
                                             <label className="form-check-label" htmlFor="flexRadioDefault2">
                                                 Female
                                             </label>
@@ -129,11 +147,11 @@ const AddNewEmp = (props) => {
                             <Row>
                                 <Col> <div className="mb-3 p-2">
                                     <label className="form-label">Address</label>
-                                    <input type="text" className="form-control" aria-describedby="emailHelp" required   />
+                                    <input value={state.address} type="text" className="form-control" aria-describedby="emailHelp" required   />
                                 </div></Col>
                                 <Col> <div className="mb-3 p-2">
                                     <label className="form-label">Employee Role</label>
-                                    <input type="text" className="form-control" aria-describedby="emailHelp" required   />
+                                    <input value={state.employee_role} type="text" className="form-control" aria-describedby="emailHelp" required   />
                                 </div></Col>
 
                             </Row>

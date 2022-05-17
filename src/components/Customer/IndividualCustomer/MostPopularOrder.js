@@ -60,7 +60,7 @@ const MostPopularOrder = props => {
               <Col className="col-12">
                 <Card>
                   <Card.Body>
-                    <Card.Title className="h4 mb-2">Most Popular Orders </Card.Title>
+                    <Card.Title className="h4 mb-4 mt-2">Most Popular Orders </Card.Title>
   
                     <PaginationProvider
                       pagination={paginationFactory(pageOptions)}

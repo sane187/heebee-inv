@@ -17,6 +17,12 @@ const AddNewCategory = (props) => {
                   <label className="form-label">Description</label>
                   <input type="textarea" className="form-control" aria-describedby="Description" value={props.catName.description} onChange={props.handleChange("description")} required/>
                 </div></Col>
+                <Col> <div className="mb-3 p-2">
+                  <label className="form-label">Items Available</label>
+                  <input type="textarea" className="form-control" aria-describedby="Description" value={props.catName.items_available} onChange={props.handleChange("items_available")} required/>
+                </div>
+
+                </Col>
 
               </Row>
 
@@ -33,7 +39,7 @@ const AddNewCategory = (props) => {
                   </div>
 
                 </Col>
-
+             
               </Row>
               <Row>
                 <Col><div className="mb-3 p-2"> <button className='btn btn-primary me-2 ' onClick={props.onClickCat} >Next</button></div></Col>

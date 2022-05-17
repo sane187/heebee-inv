@@ -6,13 +6,14 @@ import { FaRupeeSign } from "react-icons/fa";
 import { MdFastfood } from "react-icons/md";
 import { ImHourGlass } from "react-icons/im";
 import { BsTrophyFill } from "react-icons/bs";
+import {OrderAnalyticsGraph } from "../../store/actionCreators/Customers/CustomerAction" 
 import MostPopularOrder from "./IndividualCustomer/MostPopularOrder";
 import IndividualCustomerRevenue from "./IndividualCustomer/invidualCustomerRevenue";
 import IndividualOrderTable from "./IndividualCustomer/individualOrderTable";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomerAvgPurchase } from "../../store/actionCreators/Customers/CustomerAction";
 const IndividualCustomer = (props) => {
- const customer_avg_purchase=useSelector(state=>state.customer_avg_purchase)
+  const customer_avg_purchase = useSelector(state => state.customer_avg_purchase)
   const orderHistory = useSelector(state => state.customer_order_history)
   console.log(orderHistory);
   function getDateFromUTC(date) {
@@ -22,11 +23,29 @@ const IndividualCustomer = (props) => {
 
     return (`${dayArr[d.getDay()]} ${monthArray[d.getMonth()]} ${d.getHours()}:${d.getMinutes()} ${d.getFullYear()}`)
   }
+  const [current, setcurrent] = useState({
+    month: "Jan",
+    year: 2022
+  })
+  const currYear = new Date().getFullYear()
+  const yearArray = () => {
+    let arrYear = []
+    for (let i = 0; i < currYear - 2017 + 1; i++) {
+      arrYear.push(2017 + i);
+    }
+    return arrYear
+  }
+  const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const dispatch = useDispatch()
   const [currentFilter, setCurrentFilter] = useState("weekly");
   useEffect(() => {
     dispatch(CustomerAvgPurchase(currentFilter))
   }, [currentFilter])
+  useEffect(()=>{
+    if(orderHistory.data){
+      dispatch(OrderAnalyticsGraph(current.month,current.year,orderHistory.data.customer_data[0].mobile_no))
+    }
+  },[current])
   const recentOrder = () => {
     if (orderHistory.data) {
       if (orderHistory.data.most_recent_orders) {
@@ -52,20 +71,67 @@ const IndividualCustomer = (props) => {
   const handleFilterChange = (e) => {
     setCurrentFilter(e.target.value, orderHistory.data.customer_data[0].mobile_no)
   }
+  const monthDrop = () => {
+    return monthArray.map((item, index) => {
+      return (<option key={index} value={item}>{item}</option>)
+    })
+  }
+  const handleMonthChange = (e) => {
+    setcurrent({
+      ...current, month: e.target.value
+    })
+  }
+  const yearDrop = () => {
+    const year = yearArray()
+    return year.map((item, index) => {
+      if (item === currYear) {
+        return (<option key={index} value={item} selected>{item}</option>)
+      }
+      else {
+        return (<option key={index} value={item}>{item}</option>)
+      }
+    })
+  }
+  const handleYearChange = (e) => {
+    setcurrent({
+      ...current, year: e.target.value
+    })
+  }
   const main = () => {
     if (orderHistory.data && customer_avg_purchase.data) {
       if (orderHistory.data.status === "success") {
         return (<Container fluid className={props.sideToggle === true ? "closeDash" : "openDash"} style={{ paddingTop: "95px", backgroundColor: "#F1F5F7" }} >
 
           <Row>
-            <Col className="dash-head">
+            <Col lg={9} sm={6} xs={12} className="dash-head">
               Personel Information
-              <ButtonGroup aria-label="TLbutton" id="TLbutton">
+              {/* <ButtonGroup aria-label="TLbutton" id="TLbutton">
                 <a href="#OrderAnalytics"> <Button variant="outline-secondary" size="sm">Order Analytics</Button></a>
                 <a href="#OrderTable"><Button variant="outline-secondary" size="sm">Order Table</Button></a>
                 <a href="#SalesAnalytics"> <Button variant="outline-secondary" size="sm">Sales Analytics</Button></a>
-              </ButtonGroup>
+              </ButtonGroup> */}
             </Col>
+            <Col lg={3} sm={6} xs={12}>
+              <Row>
+                <Col>
+                  <div className="form-group drop-dash">
+                    <select className="form-control form-select form-select-sm" name="month" onChange={handleMonthChange}>
+                      {monthDrop()}
+                    </select>
+                  </div>
+                </Col>
+                <Col>
+                  <div className="form-group drop-dash">
+                    <select className="form-control form-select form-select-sm" name="year" onChange={handleYearChange}>
+                      {yearDrop()}
+                    </select>
+                  </div>
+                </Col>
+
+
+              </Row>
+            </Col>
+
           </Row>
           <Row id="OrderAnalytics">
             <Col xl={{ span: "7", order: "first" }} lg={{ span: "7", order: "first" }} md={{ span: "12", order: 2 }} sm={{ span: "12", order: 2 }} xs={{ span: "12", order: 2 }} >
@@ -250,8 +316,8 @@ const IndividualCustomer = (props) => {
                     <div className="icon text-light" style={{ fontSize: "24px" }}>
                       <select className="form-select form-select-sm" onChange={handleFilterChange}>
                         <option defaultValue="weekly">weekly</option>
-                        <option value="monthly">Month</option>
-                        <option value="yearly">Year</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="yearly">Yearly</option>
                       </select>
                     </div>
                   </div>
@@ -260,10 +326,11 @@ const IndividualCustomer = (props) => {
             </Col>
           </Row>
           <Row className="mt-3">
-            <Col xl={4} md={12}>
+            <Col xl={5} md={12}>
               <MostPopularOrder />
             </Col>
-            <Col xl={8}>
+            <Col xl={7}>
+              { }
               <IndividualCustomerRevenue />
             </Col>
           </Row>

@@ -1,4 +1,4 @@
-const ProductsReducer = (state="", action) => {
+export const ProductsReducer = (state="", action) => {
     switch (action.type) {
         case "GET_ALL_PRODUCTS":
             return action.products;          
@@ -6,4 +6,20 @@ const ProductsReducer = (state="", action) => {
             return state;
     }
 }
-export default ProductsReducer;
+
+export const CategoryReducer = (state="", action) => {
+    switch (action.type) {
+        case "GET_ALL_CATEGORIES":
+            return action.categories;          
+        default:
+            return state;
+    }
+}
+export const AddonsReducer = (state="", action) => {
+    switch (action.type) {
+        case "GET_ALL_ADDONS":
+            return action.addons;          
+        default:
+            return state;
+    }
+}

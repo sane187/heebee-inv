@@ -28,7 +28,6 @@
     "react-toastify": "^8.2.0",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
-    "sass": "^1.49.9",
     "web-vitals": "^2.1.4"
   },
   "engines": {
@@ -60,6 +59,12 @@
     ]
   },
   "devDependencies": {
-    "@faker-js/faker": "^6.0.0-alpha.7"
+    "@faker-js/faker": "^6.0.0-alpha.7",
+    "sass": "^1.51.0"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }

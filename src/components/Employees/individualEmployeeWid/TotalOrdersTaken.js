@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React,{ useEffect, useState } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, {
@@ -8,17 +8,65 @@ import paginationFactory, {
 import faker from "@faker-js/faker";
 import { Link } from "react-router-dom";
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
+import { useSelector } from "react-redux";
+import TotalOrderPage from "./TotalOrderPage";
 const TotalOrdersTaken = (props) => {
-    const fakeData = () => {
-        let array = [];
-        for (let index = 0; index < 20; index++) {
-          const element = { "Orderid": `${faker.datatype.uuid().slice(0,10)}`, "Ordered Items": `${faker.commerce.product()},${faker.commerce.product()},${faker.commerce.product()}`, "Amount": `${faker.commerce.price()}`, "PaymentMethod": `${faker.finance.transactionType()}`, "PaymentId": `${faker.datatype.uuid().slice(0,7)}`, "coupon": `${faker.datatype.boolean()}`, "Group": `${faker.name.jobDescriptor()}`, "order date": `${String(faker.date.recent()).slice(0,-30)}` }
+  function getDateFromUTC(date) {
+    var d = new Date(date);
+    let dayArr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    return (`${dayArr[d.getDay()]} ${monthArray[d.getMonth()]} ${d.getHours()}:${d.getMinutes()} ${d.getFullYear()}`)
+  }
+
+
+  const [page,setPage]=useState(1);
+  const orderHistory = useSelector(state => state.employee_orders_taken)
+
+  const [productData,setProductData]=useState([
+    { "Orderid": "", "Ordered Items": "", "Amount": "", "PaymentMethod":"", "PaymentId": "", "coupon": "", "Group": `${faker.name.jobDescriptor()}`, "order date": "" }
+  ]);
+  const Data = () => {
+    let array = [];
+    if (orderHistory.data) {
+      if (orderHistory.data.data) {
+        for (let i = 0; i < orderHistory.data.data.length; i++) {
+          let item=orderHistory.data.data[i];
+          let individOrder=''
+          for(let x=0;x<item.order_items.length;x++){
+            if(x===item.order_items.length-1){
+              individOrder=individOrder+ item.order_items[x].product_name+" "
+            }
+            else{
+              individOrder=individOrder+ item.order_items[x].product_name+" ,"
+            }
+            
+          }
+      
+          const element = { 
+            "order_id":  item.order_id, 
+          "order_items": `${individOrder}`,
+           "Amount": item.paid_price, 
+           "PaymentMethod": item.payment_method, 
+           "PaymentId": item.payment_id,  
+           "tax": item.tax, 
+           "coupon": item.applied_coupons.coupon, 
+           "order date": `${getDateFromUTC(item.createdAt)}` }
           array.push(element);
         }
-        return array;
       }
-      const products = fakeData();
-  const [productData,setProductData]=useState(products);
+    }
+    return array;
+  }
+  useEffect(()=>{
+     if(orderHistory.data){
+       if(orderHistory.data.status==="success"){
+        setProductData(Data())
+        setPage(Math.ceil(orderHistory.data.total_orders/10))
+       }   
+       
+     }
+  },[orderHistory])
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -27,11 +75,11 @@ const TotalOrdersTaken = (props) => {
 
   const columns = [
     {
-      dataField: 'Orderid',
+      dataField: 'order_id',
       text: 'Order ID',
       sort: true
     }, {
-      dataField: 'Ordered Items',
+      dataField: 'order_items',
       text: 'Ordered Items',
       sort: false
     }, {
@@ -135,21 +183,8 @@ const TotalOrdersTaken = (props) => {
                               </Col>
                             </Row>
 
-                            <Row className="align-items-md-center mt-30">
-                              <Col className="inner-custom-pagination d-flex">
-                                <div className="d-inline">
-                                  <SizePerPageDropdownStandalone
-                                    {...paginationProps}
-                                  />
-                                </div>
-                                <div className="text-md-right ms-auto">
-                                  <PaginationListStandalone
-
-                                    {...paginationProps}
-                                    className="table-pagination"
-                                  />
-                                </div>
-                              </Col>
+                            <Row>
+                            <TotalOrderPage pageNum={page}/>
                             </Row>
                           </React.Fragment>
                         )

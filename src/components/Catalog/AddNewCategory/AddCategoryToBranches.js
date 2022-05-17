@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 const AddCategoryToBranches = (props) => {
-
+    
     return (
         <Container fluid className={props.sideToggle === true ? "closeDash" : "openDash"} style={{ paddingTop: "95px", backgroundColor: "#F1F5F7" }} >
             <div className='row d-flex justify-content-center'>
@@ -19,7 +19,7 @@ const AddCategoryToBranches = (props) => {
                             <Row>
                                 <Col> <div className="mb-2 p-2">
                                 <button className='btn btn-primary me-2  ' onClick={()=>props.setStep(1)} >Back</button>
-                                <button className='btn btn-primary me-2  '  >Submit</button>
+                                <button className='btn btn-primary me-2  '  onClick={props.onSubmit} >Submit</button>
                                 </div></Col>
                                                              
                             </Row>
