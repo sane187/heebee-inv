@@ -5,7 +5,7 @@ import  {ProductsReducer, AddonsReducer, CategoryReducer } from "./Catalog/getPr
 import SidebarReducer from "./sidebarReducer";
 import { dashboard_card, dashboard_filters, dashboard_revenue, dashboard_sales_pie } from "./dashboardReducer";
 import { CustomerAnalyticsGraphReducer, CustomerAnalyticsPieReducer, CustomerAvgPurchaseReducer, CustomerDashboardReducer, CustomerOrderHistoryReducer, CustomerPaginationReducer, fetchCustomersReducer, MostOrderPaginationReducer, OrderAnalyticsGraphReducer } from "./Customer/customerReducer";
-import {EmployeeOrdersTakenReducer, EmployeePaginationReducer, EmployeeSalesAnalyticsReducer, fetchEmployeesReducer, fetchSingleEmployeeReducer, OrdersPaginationReducer} from "./Employee/EmployeeReducer"
+import {EmployeeOrdersTakenReducer, EmployeePaginationReducer, EmployeeSalesAnalyticsReducer, fetchEmployeesReducer, fetchSingleEmployeeReducer, OrdersPaginationReducer, RolesReducer} from "./Employee/EmployeeReducer"
 import EmployeePagination from "../../components/Employees/EmployeePagination";
 const rootReducer =combineReducers({
   franchise:FranchiseReducer,
@@ -14,6 +14,7 @@ const rootReducer =combineReducers({
   addons:AddonsReducer,
   categories:CategoryReducer,
   toggle:SidebarReducer,
+  role:RolesReducer,
     // Dashboard vars
   dashboard_card:dashboard_card,
   dashboard_filters:dashboard_filters,

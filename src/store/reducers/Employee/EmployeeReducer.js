@@ -59,3 +59,13 @@ export const EmployeeOrdersTakenReducer=(state="",action)=>{
     }
 }
 
+export const RolesReducer=(state="",action)=>{
+    switch (action.type) {
+        case "GET_ROLES":
+            return action.roles;
+        case "SET_ROLES":
+            return "";
+        default:
+            return state;
+    }
+}

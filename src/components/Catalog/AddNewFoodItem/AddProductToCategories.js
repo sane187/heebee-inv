@@ -19,7 +19,7 @@ const AddProductToCategories = (props) => {
                             <Row>
                                 <Col> <div className="mb-2 p-2">
                                 <button className='btn btn-primary me-2  ' onClick={()=>props.setStep(2)} >Back</button>
-                                <button className='btn btn-primary me-2  '  >Submit</button>
+                                <button className='btn btn-primary me-2  ' onClick={ props.handleFinalSubmit} >Submit</button>
                                 </div></Col>
                                                              
                             </Row>

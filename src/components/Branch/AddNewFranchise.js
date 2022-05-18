@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { addNewFranch } from '../../store/actionCreators/Franchise/AddNewFranchiseAction';
 
 const AddNewFranchise = (props) => {
     const [franchise,setFranchise]=useState({
@@ -9,8 +10,9 @@ const AddNewFranchise = (props) => {
         BranchNum:1
     })
     const dispatch= useDispatch();
-    const onSubmit=()=>{
-        dispatch(AddNewFranchise(franchise.franchiseName,franchise.location,franchise.BranchNum))
+    const onSubmit=(e)=>{
+        dispatch(addNewFranch(franchise.franchiseName,franchise.location,franchise.BranchNum))
+     e.preventDefault()
     }
     return (
         <Container fluid className={props.sideToggle === true ? "closeDash" : "openDash"} style={{ paddingTop: "95px", backgroundColor: "#F1F5F7" }} >
@@ -18,7 +20,7 @@ const AddNewFranchise = (props) => {
                 <div className='form-container'>
                     <div className='form-head'>Add New Franchise</div>
                     <div className='form-body'>
-                        <Form>
+                        <Form onSubmit={onSubmit}>
                             <Row>
                                 <Col> <div className="mb-3 p-2">
                                     <Form.Label>Franchise Name </Form.Label>
@@ -60,7 +62,7 @@ const AddNewFranchise = (props) => {
 
                             </Row>
                          
-                            <div className="p-2"><button className='btn btn-primary  ' >Submit</button></div>
+                            <div className="p-2"><button type="submit" className='btn btn-primary  '  >Submit</button></div>
 
                         </Form>
                     </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Accordion, Col, Container, Row } from 'react-bootstrap';
-import AddNewAddons from './AddNewAddons';
 
 const AddAddons = (props) => {
     return (
@@ -15,26 +14,14 @@ const AddAddons = (props) => {
                                     <label className="form-label">Select Addons</label>
                                     {props.displayCategory()}
                                 </div></Col>
-                          
-
+                        
 
                             </Row>
-                            <Row>
-                            <Col> <div className="mb-2 p-2" >
-                                    <Accordion >
-                                        <Accordion.Item eventKey="0">
-                                            <Accordion.Header>Add New Addon ?</Accordion.Header>
-                                            <Accordion.Body>
-                                               <AddNewAddons sideToggle={props.sideToggle} addon={props.addon} handleChange={props.handleChangeAddon}/> 
-                                            </Accordion.Body>
-                                        </Accordion.Item>
-                                    </Accordion>
-                                </div></Col>
-                            </Row>
+                    
                             <Row>
                                 <Col> <div className="mb-2 p-2">
-                                    <button className='btn btn-primary me-2  ' onClick={() => props.setStep(1)} >Back</button>
-                                    <button className='btn btn-primary me-2  ' onClick={() => props.setStep(3)}  >Next</button>
+                                    <button className='btn btn-primary me-2  ' onClick={ props.handleBackSecondForm} >Back</button>
+                                    <button className='btn btn-primary me-2  ' onClick={props.handleNextSecondForm}  >Next</button>
                                 </div></Col>
 
                             </Row>

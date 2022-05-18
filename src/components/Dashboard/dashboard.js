@@ -9,6 +9,7 @@ import { RiStore2Line } from "react-icons/ri";
 import { RiBriefcase4Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { getDashboardCards, getDashboardFilters, RevenueAnalyticsDashboard, salesAnalyticsDashboardPie } from "../../store/actionCreators/dashboard/dasboardActions";
+import { setCustomerVars } from "../../store/actionCreators/Customers/CustomerAction";
 
 const Dashboard = (props) => {
     const filters = useSelector(state => state.dashboard_filters);
@@ -40,6 +41,9 @@ const Dashboard = (props) => {
         branch: { branch_name: 'All', branch_id: 'All' },
         franchise: { franchise_name: 'All', franchise_id: 'All' }
     })
+    useEffect(()=>{
+        dispatch(setCustomerVars())
+    },[])
     useEffect(() => {
         dispatch(getDashboardFilters("Super Admin"));
         dispatch(getDashboardCards(currentFilter.franchise.franchise_id, currentFilter.branch.branch_id, current.year, current.month))

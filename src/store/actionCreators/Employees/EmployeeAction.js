@@ -127,3 +127,18 @@ export const setOrderPagination=(page)=>{
         })
     }
 }
+export const getEmployeeRoles = () => {
+    return (dispatch, getState) => {
+        axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/employee/get_employee_roles`)
+            .then( roles => {
+                dispatch({
+                    type: "GET_ROLES",
+                    roles
+                })
+            
+            }).catch(err => {
+                console.log("error", err);
+
+            })
+    }
+}

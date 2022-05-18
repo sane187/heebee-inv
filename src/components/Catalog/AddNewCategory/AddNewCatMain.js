@@ -139,7 +139,7 @@ const AddNewCatMain = (props) => {
         let array = []
         if (products.data) {
             products.data.data.map((item, index) => {
-                array.push({ label: item.product_list.product_name, value: item.product_id })
+                array.push({ label: item.product_name, value: item.product_list_id })
             })
         }
         setOptionsp(array)

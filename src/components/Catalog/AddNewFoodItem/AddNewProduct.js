@@ -15,11 +15,11 @@ const AddNewProduct = (props) => {
               <Row>
                 <Col> <div className="mb-3 p-2">
                   <label className="form-label">Product Name</label>
-                  <input type="text" className="form-control" aria-describedby="emailHelp" value={props.Newproduct.product_name} onChange={ props.handleChange("product_name")} required/>
+                  <input type="text" className="form-control" aria-describedby="NAME" value={props.Newproduct.product_name} onChange={ props.handleChange("product_name")} required/>
                 </div></Col>
                 <Col> <div className="mb-3 p-2">
                   <label className="form-label">SKU</label>
-                  <input type="text" className="form-control" aria-describedby="emailHelp" value={props.Newproduct.sku}   onChange={ props.handleChange("sku")} required />
+                  <input type="text" className="form-control" aria-describedby="SKU" value={props.Newproduct.sku}   onChange={ props.handleChange("sku")} required />
                 </div></Col>
 
 
@@ -27,11 +27,11 @@ const AddNewProduct = (props) => {
               <Row>
                 <Col> <div className="mb-3 p-2">
                   <label className="form-label">Items Available</label>
-                  <input type="text" className="form-control" aria-describedby="emailHelp" value={props.Newproduct.items_available}  onChange={ props.handleChange("items_available")} required />
+                  <input type="text" className="form-control" aria-describedby="ITEMSaVAILABLE" value={props.Newproduct.items_available}  onChange={ props.handleChange("items_available")} required />
                 </div></Col>
                 <Col> <div className="mb-3 p-2">
                   <label className="form-label">Description</label>
-                  <input type="textarea" className="form-control" aria-describedby="emailHelp" value={props.Newproduct.description} onChange={ props.handleChange("description")} required />
+                  <input type="textarea" className="form-control" aria-describedby="desc" value={props.Newproduct.description} onChange={ props.handleChange("description")} required />
                 </div></Col>
 
 
@@ -40,39 +40,39 @@ const AddNewProduct = (props) => {
               <Row>
                 <Col> <div className="mb-3 p-2">
                   <label className="form-label">product Type</label>
-                  <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example"   required>
-                    <option defaultChecked value="Kitchen" onChange={ props.handleChange("product_type")}>Kitchen</option>
-                    <option value="Barista" onChange={ props.handleChange("product_type")}>Barista</option>
+                  <select onChange={ props.handleChange("product_type")} className="form-select form-select-lg mb-3" aria-label=".form-select-lg example"   required>
+                    <option defaultChecked value="Kitchen" >Kitchen</option>
+                    <option value="Barista">Barista</option>
                   </select>
                 </div></Col>
                 <Col> <div className="mb-3 p-2">
                   <label className="form-label">Price</label>
-                  <input type="text" className="form-control" aria-describedby="emailHelp" required  onChange={ props.handleChange("price")} />
+                  <input type="text" className="form-control" aria-describedby="price" required value={props.Newproduct.price}  onChange={ props.handleChange("price")} />
                 </div></Col>
 
               </Row>
               <Row>
                 <Col> <div className="mb-3 p-2">
                   <label className="form-label">Billing Address</label>
-                  <input type="text" className="form-control" aria-describedby="emailHelp"  onChange={ props.handleChange("billing_address")} required />
+                  <input type="text" className="form-control" aria-describedby="billaddress" value={props.Newproduct.billing_address}   onChange={ props.handleChange("billing_address")} required />
                 </div></Col>
                 <Col> <div className="mb-3 p-2">
                   <label className="form-label">Shipping Address</label>
-                  <input type="text" className="form-control" aria-describedby="emailHelp"  onChange={ props.handleChange("shipping_address")} required />
+                  <input type="text" className="form-control" aria-describedby="shipaddress" value={props.Newproduct.shipping_address}  onChange={ props.handleChange("shipping_address")} required />
                 </div></Col>
 
               </Row>
               <Row>
-                <Col> <div className="mb-3 p-2">
-                  <label className="form-label d-block">Image Upload</label>
-                  <input className="d-block" type="file" id="NewCategoryImage" name="img" accept="image/*" onChange={props.imageUpload} required />
-                  {props.uploadedImage && <img className="mt-2" src={props.preview} style={{ width: "200px", maxHeight: "200px" }} />}
+              <Col> <div className="mb-3 p-2">
+                  <label className="form-label">Prepare Time</label>
+                  <input type="text" className="form-control" aria-describedby="prep" value={props.Newproduct.prepare_time}   onChange={ props.handleChange("prepare_time")} required />
                 </div></Col>
+                
                 <Col> <div className="mb-3 p-2">
                   <label className="form-label">Status</label>
-                  <select className="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required>
-                    <option defaultChecked value="Active"  onChange={ props.handleChange("status")}>Active</option>
-                    <option value="Inactive" onChange={ props.handleChange("status")}>Inactive</option>
+                  <select className="form-select form-select-lg mb-3" onChange={ props.handleChange("status")} aria-label=".form-select-lg example" required>
+                    <option defaultValue={"Active"} value="Active"  >Active</option>
+                    <option value="Inactive" >Inactive</option>
                   </select>
                 </div></Col>
                 <Col> <div className="mb-3 p-2">
@@ -96,6 +96,13 @@ const AddNewProduct = (props) => {
                   </div>
                 </div></Col>
 
+              </Row>
+              <Row>
+              <Col> <div className="mb-3 p-2">
+                  <label className="form-label d-block">Image Upload</label>
+                  <input className="d-block" type="file" id="NewCategoryImage" name="img" accept="image/*" onChange={props.imageUpload} required />
+                  {props.uploadedImage && <img className="mt-2" src={props.preview} style={{ width: "200px", maxHeight: "200px" }} />}
+                </div></Col>
               </Row>
               <div className="p-2"><button type="submit" className='btn btn-primary  '  >Next</button></div>
 

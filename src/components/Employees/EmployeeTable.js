@@ -17,7 +17,7 @@ const EmployeeTable = props => {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch()
   const [sizePerPage, setSizePerPage] = useState(10);
-  const [productData, setProductData] = useState(props.employee);
+  const [productData, setProductData] = useState([]);
   const onClickFunction = (row) => {
     dispatch(fetchSingleEmployee(row.employee_id))
   }
@@ -133,13 +133,13 @@ const EmployeeTable = props => {
 
                   <PaginationProvider
                     pagination={paginationFactory(pageOptions)}
-                    keyField='Employee ID'
+                    keyField='employee_id'
                     columns={columns}
                     data={productData}
                   >
                     {({ paginationProps, paginationTableProps }) => (
                       <ToolkitProvider
-                        keyField='Employee ID'
+                        keyField='employee_id'
                         columns={columns}
                         data={productData}
                         search

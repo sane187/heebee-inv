@@ -21,6 +21,7 @@ import { useDispatch } from 'react-redux';
 import { getAddons, getAllCategories, getAllProducts } from './store/actionCreators/Catalog/Catalog';
 import { getAllFranchise } from './store/actionCreators/Franchise/AddNewFranchiseAction';
 import { getBranches } from './store/actionCreators/Branch/BranchAction';
+import { getEmployeeRoles } from './store/actionCreators/Employees/EmployeeAction';
 function App() {
   const [sideToggle, setSideToggle] = useState(false);
   const handle = useFullScreenHandle();
@@ -29,8 +30,9 @@ function App() {
     dispatch(getAllCategories())
     dispatch(getAllProducts())
     dispatch(getAddons())
-dispatch(getBranches())
-      dispatch(getAllFranchise());
+    dispatch(getBranches())
+    dispatch(getEmployeeRoles())
+    dispatch(getAllFranchise());
 
   }, [])
   return (

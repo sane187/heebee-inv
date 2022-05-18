@@ -15,8 +15,8 @@ export const getAllFranchise = () => {
     }
 }
 export const addNewFranch = (franchise_name,location,branchNum) => {
-    return (dispatch, getState) => {
-        axios.post(`${process.env.REACT_APP_API_URL}api/v1/webpos/add_new_franchise`, {
+
+        axios.post(`${process.env.REACT_APP_API_URL}api/v1/admin/franchise/add_franchise`, {
             "franchise_name": franchise_name,
             "location": location,
             "no_branches": branchNum
@@ -31,12 +31,11 @@ export const addNewFranch = (franchise_name,location,branchNum) => {
                 draggable: true,
                 progress: undefined, theme: "colored"
             });
-            dispatch({
-                type: "ADD_FRANCHISE"
-            })
+            const myTimeout = setTimeout(()=>{window.location.reload(false)}, 5000);
+
             }).catch(err => {
                 console.log("error", err);
             
             })
-    }
+    
 }

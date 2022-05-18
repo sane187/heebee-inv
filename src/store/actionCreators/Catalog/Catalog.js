@@ -36,42 +36,116 @@ export const getAddons = () => {
 }
 export const addNewCategory = (object) => {
     const form = new FormData();
-    
+
     for (let key in object) {
-        console.log(key,object[key])
+        console.log(key, object[key])
         form.append(key, object[key]);
     }
     console.log(object)
     console.log(form.getAll)
 
- 
-        axios.post(`${process.env.REACT_APP_API_URL}api/v1/admin/product/add_category`,form,{
-            headers: { "Content-Type": "multipart/form-data" }
-        })
-            .then(res => {
-                toast.success(`NEW CATEGORY ADDED SUCCESFULLY`, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined, theme: "colored"
-                });
-                window.location.reload(false)
 
-            }).catch(err => {
-                console.log("error", err);
-                toast.error(err, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined, theme: "colored"
-                });
-            })
-    
+    axios.post(`${process.env.REACT_APP_API_URL}api/v1/admin/product/add_category`, form, {
+        headers: { "Content-Type": "multipart/form-data" }
+    })
+        .then(res => {
+            toast.success(`NEW CATEGORY ADDED SUCCESFULLY`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined, theme: "colored"
+            });
+            const myTimeout = setTimeout(window.location.reload(false), 3000);
+            clearTimeout(myTimeout);
+
+        }).catch(err => {
+            console.log("error", err);
+            toast.error(err, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined, theme: "colored"
+            });
+        })
+
+
+}
+export const addNewFoodItem = (object) => {
+    const form = new FormData();
+
+    for (let key in object) {
+        form.append(key, object[key]);
+    }
+
+    axios.post(`${process.env.REACT_APP_API_URL}api/v1/admin/product/add_fooditem`, form, {
+        headers: { "Content-Type": "multipart/form-data" }
+    })
+        .then(res => {
+            toast.success(`New Product added successfully`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined, theme: "colored"
+            });
+            const myTimeout = setTimeout(window.location.reload(false), 3000);
+            clearTimeout(myTimeout);
+
+        }).catch(err => {
+            console.log("error", err);
+            toast.error(err, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined, theme: "colored"
+            });
+        })
+
+
+}
+export const addNewAddon = ( title, options ) => {
+
+    axios.post(`${process.env.REACT_APP_API_URL}api/v1/admin/product/add_addons`, {
+
+        "title": title,
+        "add_on_options": options
+
+    })
+        .then(res => {
+            toast.success(`New Addon added successfully`, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined, theme: "colored"
+            });
+            // setTimeout(window.location.reload(false), 3000);
+
+        }).catch(err => {
+            console.log("error", err);
+            toast.error(err, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined, theme: "colored"
+            });
+        })
+
 
 }
