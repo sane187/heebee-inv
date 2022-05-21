@@ -11,8 +11,20 @@ const IndividualEmployeeRevenue = () => {
     const currYear = new Date().getFullYear()
     const [current, setcurrent] = useState({
         filter: "weekly",
-        year: "All"
+        year: "All",
+        month:"Jan"
     })
+    const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    function monthDrop() {
+        return monthArray.map((item, index) => {
+            return (<option key={index} value={item}>{item}</option>);
+        });
+    }
+    const handleMonthChange = (e) => {
+        setcurrent({
+            ...current, month: e.target.value
+        })
+    }
     const yearArray = () => {
         let arrYear = ["All"]
         for (let i = 0; i < currYear - 2017 + 1; i++) {
@@ -74,7 +86,7 @@ const IndividualEmployeeRevenue = () => {
     }
     useEffect(() => {
         if (employee.data) {
-            dispatch(EmployeeSalesAnalytics(employee.data.data.employee_id, current.filter, current.year))
+            dispatch(EmployeeSalesAnalytics(employee.data.data.employee_id, current.filter, current.year,current.month))
         }
 
     }, [current,employee])
@@ -181,6 +193,14 @@ const IndividualEmployeeRevenue = () => {
                             </select>
                         </div>
                     </div>
+                    <div className="float-end d-none d-md-inline-block">
+                        <div className="form-group dash-rev">
+                            <select className="form-control form-select form-select-sm" name="month" onChange={handleYearChange}>
+                            {monthDrop()}
+                            </select>
+                        </div>
+                    </div>
+                    
                     <h4 className="card-title mb-4 revenue" >Employee Sales Analytics</h4>
 
                     <div>

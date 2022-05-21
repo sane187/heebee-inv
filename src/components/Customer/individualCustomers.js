@@ -12,6 +12,7 @@ import IndividualCustomerRevenue from "./IndividualCustomer/invidualCustomerReve
 import IndividualOrderTable from "./IndividualCustomer/individualOrderTable";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomerAvgPurchase } from "../../store/actionCreators/Customers/CustomerAction";
+import NoData from "../NoData";
 const IndividualCustomer = (props) => {
   const customer_avg_purchase = useSelector(state => state.customer_avg_purchase)
   const orderHistory = useSelector(state => state.customer_order_history)
@@ -334,14 +335,14 @@ const IndividualCustomer = (props) => {
       }
       else {
         return(    <Container fluid className={props.sideToggle === true ? "closeDash" : "openDash"} style={{ paddingTop: "95px", backgroundColor: "#F1F5F7" }} >
-        <h2>No data found</h2>
+        <NoData data="No Data found for this customer"/>
       </Container>)
     
       }
     }
     else {
       return(    <Container fluid className={props.sideToggle === true ? "closeDash" : "openDash"} style={{ paddingTop: "95px", backgroundColor: "#F1F5F7" }} >
-      <h2>No data found</h2>
+      <NoData data="No Data found for this customer"/>
     </Container>)
 
     }

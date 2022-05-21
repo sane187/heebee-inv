@@ -111,12 +111,13 @@ const Sidebar = (props) => {
                 {/* <MenuItem>Add New<NavLink exact="true" to="/employee/addNew" /></MenuItem> */}
               </SubMenu>
               <SubMenu open={open.open4} onOpenChange={()=>openChange("open4")} title="Catalog" icon={<FaClipboardList />}>
+              <MenuItem>All Category<NavLink to="/catalog/" /></MenuItem>
                 <MenuItem>Add Category<NavLink to="/catalog/AddCategory" /></MenuItem>
                 <MenuItem>Add Food Item<NavLink to="/catalog/AddProduct" /></MenuItem>
                 <MenuItem>Add Addons<NavLink to="/catalog/AddAddons" /></MenuItem>
               </SubMenu>
               <SubMenu open={open.open5} onOpenChange={()=>openChange("open5") } title="Franchise" icon={<RiBuilding2Fill />}>
-                <MenuItem>All Branch<NavLink to="/branch/AllBranch" /></MenuItem>
+                <MenuItem>All Franchise<NavLink to="/branch/AllBranch" /></MenuItem>
                 <MenuItem>Add Branch<NavLink to="/branch/AddBranch" /></MenuItem>
                 <MenuItem>Add Franchise<NavLink to="/branch/AddFranchise" /></MenuItem>
               </SubMenu>

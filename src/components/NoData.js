@@ -1,18 +1,20 @@
 import React from 'react';
-
-const NoData = ({data}) => {
+import { Card, Col, Row, } from 'react-bootstrap';
+const NoData = ({ data }) => {
     return (
-        <>
-            <ul id="stickyNote">
-                <li>
-                    <span>
-                        <h2>HEEBEE</h2>
-                        <p>{data}</p>
-                    </span>
-                </li>
-            
-            </ul>
-        </>
+        <Row>
+        <Col >
+        <Card className="smallCard" style={{ width: '300px',height:"100px" }}>
+                <Card.Body>
+                    {/* <Card.Img width="150px" height="150px" variant="top" src={item.product_list.card_img} /> */}
+                    <Card.Title>{"HeeBee"}</Card.Title>
+                    {data}
+
+                </Card.Body>
+            </Card>
+        </Col>
+           
+        </Row>
     );
 };
 

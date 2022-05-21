@@ -114,7 +114,7 @@ export const addNewFoodItem = (object) => {
 
 
 }
-export const addNewAddon = ( title, options ) => {
+export const addNewAddon = (title, options) => {
 
     axios.post(`${process.env.REACT_APP_API_URL}api/v1/admin/product/add_addons`, {
 
@@ -148,4 +148,52 @@ export const addNewAddon = ( title, options ) => {
         })
 
 
+}
+export const get_category_branches = (cat_list_id, branch_id) => {
+    return (dispatch, getState) => {
+        axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/product/get_category_by_branches?category_list_id=${cat_list_id}&branch_id=${branch_id}`)
+            .then(data => {
+                dispatch({
+                    type: "GET_BRANCH_PRODUCT",
+                    data: data.data
+                })
+
+
+            })
+    }
+}
+export const get_product_branch = (cat_list_id) => {
+    return (dispatch, getState) => {
+        axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/product/get_category_branches?category_list_id=${cat_list_id}`)
+            .then(data => {
+                dispatch({
+                    type: "GET_CATEGORY_BRANCHES",
+                    data: data.data
+                })
+                if (data.data.data[0]){
+                    axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/product/get_category_by_branches?category_list_id=${cat_list_id}&branch_id=${data.data.data[0].branch_id}`)
+                        .then(data => {
+                            dispatch({
+                                type: "GET_BRANCH_PRODUCT",
+                                data: data.data
+                            })
+                        })
+                    }else{
+                        dispatch({
+                            type: "GET_BRANCH_PRODUCT",
+                            data: null
+                        })
+                        toast.error("No data available ", {
+                            position: "top-right",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined, theme: "colored"
+                        });
+                        
+                    }
+            })
+    }
 }

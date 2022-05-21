@@ -31,9 +31,9 @@ export const fetchEmployees = (page,franchise_id,branch_id,search) => {
             })
     }
 }
-export const EmployeeSalesAnalytics = (emp_id,filter,year) => {
+export const EmployeeSalesAnalytics = (emp_id,filter,year,month) => {
     return (dispatch, getState) => {
-        axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/employee//employee_sales_analytics?employee=${emp_id}&filter_by=${filter}&year=${year}`)
+        axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/employee/employee_sales_analytics?employee=${emp_id}&filter_by=${filter}&year=${year}&month=${month}`)
             .then( employee_sales_analytics => {
                 dispatch({
                     type: "EMPLOYEE_SALES_ANALYTICS",

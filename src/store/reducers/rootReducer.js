@@ -1,7 +1,7 @@
 import FranchiseReducer from "./Franchise/FranchiseReducer";
 import  {BranchReducer, SingleBranchReducer } from "./Branch/BranchReducer";
 import { combineReducers } from "redux";
-import  {ProductsReducer, AddonsReducer, CategoryReducer } from "./Catalog/getProductsRed";
+import  {ProductsReducer, AddonsReducer, CategoryReducer, get_category_branchesReducer, get_product_branchReducer } from "./Catalog/getProductsRed";
 import SidebarReducer from "./sidebarReducer";
 import { dashboard_card, dashboard_filters, dashboard_revenue, dashboard_sales_pie } from "./dashboardReducer";
 import { CustomerAnalyticsGraphReducer, CustomerAnalyticsPieReducer, CustomerAvgPurchaseReducer, CustomerDashboardReducer, CustomerOrderHistoryReducer, CustomerPaginationReducer, fetchCustomersReducer, MostOrderPaginationReducer, OrderAnalyticsGraphReducer } from "./Customer/customerReducer";
@@ -9,6 +9,7 @@ import {EmployeeOrdersTakenReducer, EmployeePaginationReducer, EmployeeSalesAnal
 import EmployeePagination from "../../components/Employees/EmployeePagination";
 import authReducer from "./loginReducer";
 import { get_admin_rolesReducer } from "./User/UserReducer";
+import { get_product_branch } from "../actionCreators/Catalog/Catalog";
 const rootReducer =combineReducers({
   login:authReducer,
   franchise:FranchiseReducer,
@@ -41,6 +42,10 @@ const rootReducer =combineReducers({
  employee:fetchSingleEmployeeReducer,
   employee_sales_analytics:EmployeeSalesAnalyticsReducer,
   employee_orders_taken:EmployeeOrdersTakenReducer,
-  emp_orders_page:OrdersPaginationReducer
+  emp_orders_page:OrdersPaginationReducer,
+  // CATALOG
+  getBranchInCat:get_category_branchesReducer,
+  getCatByBranch:get_product_branchReducer
+
 })
 export default rootReducer;

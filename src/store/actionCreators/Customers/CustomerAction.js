@@ -77,7 +77,7 @@ export const CustomerOrderHistory = (page, contact) => {
 }
 export const OrderAnalyticsGraph = (month,year, contact,filter) => {
     return (dispatch, getState) => {
-        axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/customer/order_analytics_graph?filter_by=${filter}&Year=${year}&customer_no=${contact}&month=${month}`)
+        axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/customer/order_analytics_graph?filter_by=${filter}&year=${year}&customer_no=${contact}&month=${month}`)
             .then(order_analytics_graph => {
                 dispatch({
                     type: "GET_ORDER_ANALYTICS_GRAPH",

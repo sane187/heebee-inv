@@ -116,3 +116,29 @@ button:focus{
   background-color: #664d03;
   color: white;
 }
+.veg{
+  position: absolute;
+  top:10px;
+  left:10px;
+  content: "";
+  display: inline-block;
+  width:20px;
+  height:20px;
+  background-color: #0a7b3a;
+  border-radius: 50%;
+}
+.nonVeg{
+  position: absolute;
+  top:10px;
+  left:10px;
+  content: "";
+  display: inline-block;
+  width:20px;
+  height:20px;
+  background-color: #ff0000;
+  border-radius: 50%;
+
+}
+.smallCard{
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset !important; 
+}
