@@ -39,7 +39,6 @@ const IndividualEmployeeRevenue = () => {
 
     const [state, setState] = useState({
         series: [{
-            name: '2021',
             type: 'column',
             data: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16]
         }],
@@ -78,9 +77,11 @@ const IndividualEmployeeRevenue = () => {
             dispatch(EmployeeSalesAnalytics(employee.data.data.employee_id, current.filter, current.year))
         }
 
-    }, [current])
+    }, [current,employee])
     useEffect(() => {
         if (data.data) {
+
+         
            if(data.data.status==='failure'){
                setState({
                 series: [{
@@ -116,6 +117,10 @@ const IndividualEmployeeRevenue = () => {
             })
            }
            else{
+            let label=[]
+            for(let i=0;i<data.data.x.length;i++){
+                label.push(String(data.data.x[i]))
+            }
             setState({
                 series: [{
                     type: 'column',
@@ -145,7 +150,7 @@ const IndividualEmployeeRevenue = () => {
                         show: false,
                     },
                     colors: [ '#1cbb8c'],
-                    labels: data.data.x,
+                    labels: label,
                 }
             })
            }
@@ -163,6 +168,7 @@ const IndividualEmployeeRevenue = () => {
 
                     <div className="float-end d-none d-md-inline-block">
                         <ButtonGroup className="mb-2 graph-buttons" style={{ fontFamily: "Nunito,sans-serif" }}>
+                        <Button size="sm" variant="light" style={{ backgroundColor: "#EFF2F7", fontSize: "13px" }} type="button" value={"daily"} onClick={handleChange}>Daily</Button>
                             <Button size="sm" variant="light" style={{ backgroundColor: "#EFF2F7", fontSize: "13px" }} type="button" value={"weekly"} onClick={handleChange}>Weekly</Button>
                             <Button size="sm" variant="light" style={{ backgroundColor: "#EFF2F7", fontSize: "13px" }} type="button" value={"monthly"} onClick={handleChange}>Monthly</Button>
                             <Button size="sm" variant="light" style={{ backgroundColor: "#EFF2F7", fontSize: "13px" }} type="button" value={"yearly"} onClick={handleChange}>Yearly</Button>

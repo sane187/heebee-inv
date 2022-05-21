@@ -4,7 +4,6 @@ import { addNewAddon } from '../../../store/actionCreators/Catalog/Catalog';
 const AddAddons = (props) => {
   const [addon, setAddon] = useState("")
 
-
   const [serviceList, setServiceList] = useState([{ "title": "", "price": 0, "order": 0, "sku": "" }]);
 
   const handleServiceChange = (e, index) => {

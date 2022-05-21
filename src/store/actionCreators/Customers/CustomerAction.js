@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 export const fetchCustomers = (page, franchise, branch, city) => {
     return (dispatch, getState) => {
         axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/customer/fetch_customers/${page}?franchise_id=${franchise}&branch_id=${branch}&role=City Head&city=${city}`)
@@ -74,9 +75,9 @@ export const CustomerOrderHistory = (page, contact) => {
             })
     }
 }
-export const OrderAnalyticsGraph = (month,year, contact) => {
+export const OrderAnalyticsGraph = (month,year, contact,filter) => {
     return (dispatch, getState) => {
-        axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/customer/order_analytics_graph?Year=${year}&customer_no=${contact}&month=${month}`)
+        axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/customer/order_analytics_graph?filter_by=${filter}&Year=${year}&customer_no=${contact}&month=${month}`)
             .then(order_analytics_graph => {
                 dispatch({
                     type: "GET_ORDER_ANALYTICS_GRAPH",
@@ -165,4 +166,41 @@ export const setCustomerVars=(page)=>{
             type: "SET_CUSTOMERS",
         })
     }
+}
+export const addNewCustomer=(OB)=>{
+    axios.post(`${process.env.REACT_APP_API_URL}api/v1/admin/customer/add_customer`,{
+        "first_name":OB.first_name,
+        "last_name":OB.last_name,
+        "profile_pic":"https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_dark_1x_r2.png",
+        "mobile_no":OB.mobile_no,
+        "email":OB.email,
+        "date_of_birth":OB.date_of_birth,
+        "gender":OB.gender,
+        "branch":OB.branch,
+        "branch_id":OB.branch_id,
+        "shipping_address":{
+            "address":OB.shipping_address.address,
+            "pincode":OB.shipping_address.pincode
+        },
+        "billing_address":{
+            "address":OB.billing_address.address,
+            "pincode":OB.billing_address.pincode
+        }
+    }
+)
+    .then(res => {
+        toast.success(`SuccessFully Added Customer`, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined, theme: "colored"
+        })
+    //  setTimeout(()=>{window.location.reload(false)},4000)
+    }).catch(err => {
+        console.log("error", err);
+
+    })
 }

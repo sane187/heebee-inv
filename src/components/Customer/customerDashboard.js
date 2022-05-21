@@ -61,7 +61,7 @@ const CustomerDashboard = (props) => {
     ]
 
     const yearArray = () => {
-        let arrYear = []
+        let arrYear = ["All"]
         for (let i = 0; i < currYear - 2017 + 1; i++) {
             arrYear.push(2017 + i);
         }
@@ -197,7 +197,7 @@ const CustomerDashboard = (props) => {
             let points = []
             let labels =[]
             for (let i = 0; i < revenueGraph.data.y.length; i++) {
-                points.push(revenueGraph.data.y[i].toFixed(2))
+                points.push(parseFloat(revenueGraph.data.y[i]).toFixed(2))
             }
             for (let i = 0; i < revenueGraph.data.x.length; i++) {
                 labels.push(String(revenueGraph.data.x[i]))

@@ -11,10 +11,16 @@ import { RiWallet2Line } from "react-icons/ri";
 import { AiOutlineSetting } from "react-icons/ai";
 import { AiOutlineUnlock } from "react-icons/ai";
 import { BsPower } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/actionCreators/loginAction";
 
 
 const Header = (props) => {
-
+    const dispatch=useDispatch();
+ const SIGNOUT=(e)=>{
+ dispatch(logout())
+  
+ }
     return (
         <React.Fragment>
             <div className="container-fluid fixed-top bg-light text-light p-2" style={{ zIndex: "500", height: "77px", boxShadow: "rgba(0, 0, 0, 0.15) 0px 3px 3px 0px" }}>
@@ -86,19 +92,17 @@ const Header = (props) => {
                     </Dropdown>
                     {/* user SPECIFIC */}
                     <Dropdown id="user-button" className="">
-                        <Dropdown.Toggle className="" variant="light" id="dropdown-user">
+                        <Dropdown.Toggle   className="" variant="light" id="dropdown-user">
                             <span >
                                 <img src={user} width="28px" height="28px" style={{ borderRadius: "50%" }}></img>
                                 <span className="mx-2">Admin</span>
                             </span>
                         </Dropdown.Toggle>
 
-                        <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1"><span><AiOutlineUser className="mr-3" /> Profile</span></Dropdown.Item>
-                            <Dropdown.Item href="#/action-2"><span><RiWallet2Line className="mr-3" /> My Wallet</span></Dropdown.Item>
-                            <Dropdown.Item href="#/action-3"><span><AiOutlineSetting className="mr-3" /> Settings</span></Dropdown.Item>
-                            <Dropdown.Item href="#/action-4"><span><AiOutlineUnlock className="mr-3" /> Lock Screen</span></Dropdown.Item>
-                            <Dropdown.Item href="#/action-4"><span style={{ color: "red" }}><BsPower className="mr-3 " /> Signout</span></Dropdown.Item>
+                        <Dropdown.Menu  >
+                            <Dropdown.Item eventKey={3}><span><AiOutlineUser className="mr-3" /> Profile</span></Dropdown.Item>
+                            <Dropdown.Item eventKey={2} ><span><AiOutlineUnlock className="mr-3" /> Lock Screen</span></Dropdown.Item>
+                            <Dropdown.Item eventKey={1} onClick={SIGNOUT}><span style={{ color: "red" }}><BsPower className="mr-3 "  /> Signout</span></Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>

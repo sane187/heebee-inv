@@ -51,17 +51,7 @@ const AddNewProduct = (props) => {
                 </div></Col>
 
               </Row>
-              <Row>
-                <Col> <div className="mb-3 p-2">
-                  <label className="form-label">Billing Address</label>
-                  <input type="text" className="form-control" aria-describedby="billaddress" value={props.Newproduct.billing_address}   onChange={ props.handleChange("billing_address")} required />
-                </div></Col>
-                <Col> <div className="mb-3 p-2">
-                  <label className="form-label">Shipping Address</label>
-                  <input type="text" className="form-control" aria-describedby="shipaddress" value={props.Newproduct.shipping_address}  onChange={ props.handleChange("shipping_address")} required />
-                </div></Col>
-
-              </Row>
+      
               <Row>
               <Col> <div className="mb-3 p-2">
                   <label className="form-label">Prepare Time</label>

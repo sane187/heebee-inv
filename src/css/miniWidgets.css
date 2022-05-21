@@ -37,9 +37,10 @@
 }
 /* doughnut.js */
 .dougnhut-text{
-font-size: 14.4px;
+font-size: 12px;
 font-family: Nunito,sans-serif;
 color:#505d69;
+white-space: nowrap;
 
 }
 .icon-color{

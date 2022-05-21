@@ -7,8 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from './components/Dashboard/dashboard';
 import Customer from './components/Customer/customer';
 import Employee from './components/Employees/employee';
-import AllCustomer from './components/Customer/Allcustomer';
-import IndivudualCustomer from './components/Customer/individualCustomers';
 import Error404 from './components/error404';
 import React, { useEffect, useState } from 'react';
 import Footer from './components/footer';
@@ -22,6 +20,8 @@ import { getAddons, getAllCategories, getAllProducts } from './store/actionCreat
 import { getAllFranchise } from './store/actionCreators/Franchise/AddNewFranchiseAction';
 import { getBranches } from './store/actionCreators/Branch/BranchAction';
 import { getEmployeeRoles } from './store/actionCreators/Employees/EmployeeAction';
+import Protected from './Protected';
+import { getAdminRoles } from './store/actionCreators/User/UserAction';
 function App() {
   const [sideToggle, setSideToggle] = useState(false);
   const handle = useFullScreenHandle();
@@ -33,7 +33,7 @@ function App() {
     dispatch(getBranches())
     dispatch(getEmployeeRoles())
     dispatch(getAllFranchise());
-
+    dispatch(getAdminRoles())
   }, [])
   return (
     <Router>
@@ -41,13 +41,13 @@ function App() {
         <React.Fragment>
           <Sidebar handle={handle} setSideToggle={setSideToggle} sideToggle={sideToggle} />
           <Routes>
-            <Route path='/' element={<Dashboard sideToggle={sideToggle} />}></Route>
+            <Route path='/' element={<Protected><Dashboard sideToggle={sideToggle} /></Protected>}></Route>
             <Route path='/login' element={<Login sideToggle={sideToggle} />}></Route>
-            <Route path='/customer/*' element={<Customer sideToggle={sideToggle} />}></Route>
-            <Route path='/employee/*' element={<Employee sideToggle={sideToggle} />}></Route>
-            <Route path="/branch/*" element={<Branch sideToggle={sideToggle} />}></Route>
-            <Route path="/catalog/*" element={<Catalog sideToggle={sideToggle} />}></Route>
-            <Route path="/user/*" element={<User sideToggle={sideToggle} />}></Route>
+            <Route path='/customer/*' element={<Protected><Customer sideToggle={sideToggle} /></Protected>}></Route>
+            <Route path='/employee/*' element={<Protected><Employee sideToggle={sideToggle} /></Protected>}></Route>
+            <Route path="/branch/*" element={<Protected><Branch sideToggle={sideToggle} /></Protected>}></Route>
+            <Route path="/catalog/*" element={<Protected><Catalog sideToggle={sideToggle} /></Protected>}></Route>
+            <Route path="/user/*" element={<Protected><User sideToggle={sideToggle} /></Protected>}></Route>
             <Route path="*" element={<Error404 />} />
           </Routes>
           <Footer />

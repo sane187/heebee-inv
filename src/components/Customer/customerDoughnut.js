@@ -9,9 +9,9 @@ const CustomerDoughnut=({options,series})=> {
           return options.labels.map((item,index)=>{
                return(
                 <Col key={index}>
-                <div className="text-center mt-4">
-                    <p className="dougnhut-text"><BsFillCircleFill style={{color:`${options.colors[index]}`}}/> {(item.slice(0,-6)).toUpperCase()}</p>
-                    {series[index]} %
+                <div className="text-center">
+                    <p className="dougnhut-text"><BsFillCircleFill style={{color:`${options.colors[index]}`}}/> {(item.slice(0,-6))} ({series[index]} %)</p>
+                    {/* <div className="dougnhut-text">{series[index]} %</div> */}
                 </div>
             </Col>
                )

@@ -16,23 +16,15 @@ function Customer(props) {
       dispatch(clearDashBoard());
       dispatch(setCustomerPagination(1))
     },[])
-    // const fakeData = () => {
-    //     let array = [];
-    //     for (let index = 0; index < 10; index++) {
-    //         const element = { "id": `${faker.datatype.uuid()}`, "name": `${faker.name.findName()}`, "address": `${faker.address.streetAddress()} ${faker.address.cityName()}`, "email": `${faker.internet.email()}`, "telephone": `${faker.phone.phoneNumber()}`, "zip": `${faker.address.zipCode()}`, "city": `${faker.address.city()}`, "franchise": `${faker.address.streetAddress()}`, "order date": `${String(faker.date.recent()).slice(0, -30)}`, "gender": `${faker.name.gender(true)}` }
-    //         array.push(element);
-    //     }
-    //     return array;
-    // }
-    // const products = fakeData();
-     const [currentCustomer, setCustomer] = useState(null)
+
+
 
     return (<React.Fragment>
         <Routes>
-            <Route path="/" element={<CustomerDashboard  sideToggle={props.sideToggle} currentCustomer={currentCustomer} setCustomer={setCustomer} />} />
-            <Route path="/individual" element={<IndividualCustomer  sideToggle={props.sideToggle} currentCustomer={currentCustomer} />} />
-            <Route path="/addCustomer" element={<AddCustomer  sideToggle={props.sideToggle} currentCustomer={currentCustomer} />} />
-            <Route path='/allCustomer' element={<AllCustomer sideToggle={props.sideToggle} currentCustomer={currentCustomer} setCustomer={setCustomer} />}></Route>
+            <Route path="/" element={<CustomerDashboard  sideToggle={props.sideToggle}  />} />
+            <Route path="/individual" element={<IndividualCustomer  sideToggle={props.sideToggle} />} />
+            <Route path="/addCustomer" element={<AddCustomer  sideToggle={props.sideToggle}  />} />
+            <Route path='/allCustomer' element={<AllCustomer sideToggle={props.sideToggle}  />}></Route>
         </Routes>
     </React.Fragment>)
 

@@ -11,7 +11,7 @@ import "../../css/customer/customerTable.css";
 import { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import EmployeePagination from "./EmployeePagination";
-import { fetchSingleEmployee } from "../../store/actionCreators/Employees/EmployeeAction";
+import { fetchSingleEmployee, setOrderPagination } from "../../store/actionCreators/Employees/EmployeeAction";
 
 const EmployeeTable = props => {
   const [page, setPage] = useState(1);
@@ -19,6 +19,7 @@ const EmployeeTable = props => {
   const [sizePerPage, setSizePerPage] = useState(10);
   const [productData, setProductData] = useState([]);
   const onClickFunction = (row) => {
+    dispatch(setOrderPagination(1))
     dispatch(fetchSingleEmployee(row.employee_id))
   }
   const employees = useSelector(state => state.employees);

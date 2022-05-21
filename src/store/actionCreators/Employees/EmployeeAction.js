@@ -46,25 +46,25 @@ export const EmployeeSalesAnalytics = (emp_id,filter,year) => {
             })
     }
 }
-export const addEmployees = (full_name,mobile_no,email,password,dob,address,branch_name,branch_id,employee_role,employee_role_id,gender) => {
-    return (dispatch, getState) => {
-        axios.post(`${process.env.REACT_APP_API_URL}api/v1/admin/employee/get_all_employees/1?franchise=b3965289-93e6-4f30-989c-eabb37d0b69a&branch=3e2f18a3-7143-4ada-8e97-b4745c63f06a&search=rahul`,{
-                "full_name":full_name,
-                "mobile_no":mobile_no,
-                "email":email,
-                "password":password,
+export const addEmployees = (OB) => {
+
+        axios.post(`${process.env.REACT_APP_API_URL}api/v1/admin/employee/add_new_employee`,{
+                "full_name":OB.full_name,
+                "mobile_no":OB.mobile_no,
+                "email":OB.email,
+                "password":OB.password,
                 "profile_pic":"https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_dark_1x_r2.png",
-                "date_of_birth":dob,
-                "address":address,
-                "branch":branch_name,
-                "branch_id":branch_id,
-                "employee_role":employee_role,
-                "employee_role_id":employee_role_id,
-                "gender":gender
+                "date_of_birth":OB.date_of_birth,
+                "address":OB.address,
+                "branch":OB.branch,
+                "branch_id":OB.branch_id,
+                "employee_role":OB.employee_role,
+                "employee_role_id":OB.employee_role_id,
+                "gender":OB.gender
             }
         )
             .then(res => {
-                toast.error(`successFully submitted`, {
+                toast.success(`successFully Added Employee`, {
                     position: "top-right",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -73,11 +73,12 @@ export const addEmployees = (full_name,mobile_no,email,password,dob,address,bran
                     draggable: true,
                     progress: undefined, theme: "colored"
                 })
+             setTimeout(()=>{window.location.reload(false)},4000)
             }).catch(err => {
                 console.log("error", err);
 
             })
-    }
+    
 }
 
 export const getEmployeePagination=()=>{
@@ -140,5 +141,28 @@ export const getEmployeeRoles = () => {
                 console.log("error", err);
 
             })
+    }
+}
+export const resetEmployee=()=>{
+    return(dispatch,getState)=>{
+        dispatch({
+            type: "SET_EMPLOYEES",
+        })
+        dispatch({
+            type: "ET_SINGLE_EMPLOYEE",
+        })
+        dispatch({
+            type: "SET_EMPLOYEE_SALES_ANALYTICS",
+        })
+        dispatch({
+            type: "SET_EMPLOYEE_PAGE",
+            page:1
+        })
+        dispatch({
+            type: "SET_EMPLOYEE_ORDERS_TAKEN",
+        })
+        dispatch({
+            type: "SET_ROLES",
+        })
     }
 }

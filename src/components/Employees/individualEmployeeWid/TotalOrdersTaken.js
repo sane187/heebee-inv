@@ -63,7 +63,11 @@ const TotalOrdersTaken = (props) => {
        if(orderHistory.data.status==="success"){
         setProductData(Data())
         setPage(Math.ceil(orderHistory.data.total_orders/10))
-       }   
+       }  
+       else{
+        setProductData(Data())
+        setPage(1)
+       }  
        
      }
   },[orderHistory])

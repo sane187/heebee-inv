@@ -23,8 +23,6 @@ const AddNewFoodMain = (props) => {
         description: "",
         product_type: "Kitchen",
         price: 0.0,
-        billing_address: "",
-        shipping_address: "",
         image: uploadedImage,
         status: "Active",
         food_type: "Veg",

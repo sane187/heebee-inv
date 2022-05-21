@@ -10,7 +10,7 @@ const AddNewBranchMain = (props) => {
     const dispatch = useDispatch();
     const franchise = useSelector(state => state.franchise)
     const [selectedFranchise, setSelected] = useState([]);
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(2);
     const [options, setOptions] = useState([])
     // ADD NEW BRANCH FIRST PAGE
     const [newBranch, setNewBranch] = useState({

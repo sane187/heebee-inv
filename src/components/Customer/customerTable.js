@@ -36,7 +36,7 @@ const CustomerTable = (props) => {
   useEffect(()=>{
     let arrayCust=[];
     if(customers.data){
-      console.log("customers",customers.data.data.first_name)
+     if(customers.data.status!=="failure"){
       setPageNum(Math.ceil(customers.data.total_customers/10))
       for(let i=0 ;i<customers.data.data.length;i++){
         arrayCust.push({
@@ -50,6 +50,8 @@ const CustomerTable = (props) => {
         })
       }
       setProductData(arrayCust)
+     }
+      
     }
   },[customers])
   console.log(customers)

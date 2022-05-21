@@ -17,11 +17,11 @@ const IndividualEmployee = props => {
         if(employee.data){
             dispatch(EmployeeOrdersTaken(page,employee.data.data.employee_id,''))
         }
-     
-    },[page])
+    },[page,employee])
     const main=()=>{
         if(employee.data){
-            return (
+            if(employee.data.status==="success")
+            {return (
                 <Container fluid className={props.sideToggle === true ? "closeDash" : "openDash"} style={{ paddingTop: "95px", backgroundColor: "#F1F5F7" }} >
                     <Row>
                         <Col className="dash-head">
@@ -233,7 +233,15 @@ const IndividualEmployee = props => {
                         </Col>
                     </Row>
                 </Container>
-            );
+            );}
+            else{
+                return (
+                    <Container fluid className={props.sideToggle === true ? "closeDash" : "openDash"} style={{ paddingTop: "95px", backgroundColor: "#F1F5F7" }} >
+             
+                   <Row><h2>No data Found</h2></Row>
+                </Container>
+                )
+            }
         }
     }
     return (

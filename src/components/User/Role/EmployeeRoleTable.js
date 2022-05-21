@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Row, Col, Card } from "react-bootstrap";
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory, {
@@ -9,14 +9,41 @@ import { Link } from "react-router-dom";
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 
 import { useState } from 'react';
+import { useSelector } from "react-redux";
 
 const EmployeeRoleTable = (props) => {
   const [page, setPage] = useState(1);
   const [sizePerPage, setSizePerPage] = useState(10);
-  const [productData, setProductData] = useState(props.employee);
+  const [productData, setProductData] = useState(
+    [{"employee_role_id":"","employee_role":"","createdAt":""}]
+  );
+  const role=useSelector(state=>state.role)
   const onClickFunction = (index) => {
     props.setEmployee(index);
   }
+  useEffect(()=>{
+    if(role.data){
+      let arr=[]
+      function getDateFromUTC(date){
+        var d = new Date(date);
+        let dayArr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+         const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        
+        return(`${dayArr[d.getDay()]} ${monthArray[d.getMonth()]} ${d.getHours()}:${d.getMinutes()} ${d.getFullYear()}`)
+        }
+      if(role.data.status==="success"){
+        for(let i=0;i<role.data.emp_roles.length;i++){
+         arr.push({
+          "employee_role_id":role.data.emp_roles[i].employee_role_id,
+          "employee_role":role.data.emp_roles[i].employee_role,
+          "createdAt":getDateFromUTC(role.data.emp_roles[i].createdAt)
+         })
+        }
+        setProductData(arr)
+      }
+    }
+  
+  },[role])
   console.log(props);
   function rankFormatter(cell, row, rowIndex, formatExtraData) {
     return (
@@ -43,27 +70,19 @@ const EmployeeRoleTable = (props) => {
 
   const columns = [
     {
-      dataField: 'EmpId',
-      text: 'EmpId',
+      dataField: 'employee_role_id',
+      text: 'Employee Role ID ',
       sort: false
     },
     {
-      dataField: 'name',
-      text: 'Full Name',
+      dataField: 'employee_role',
+      text: 'Role',
       sort: true
     }, {
-      dataField: 'telephone',
-      text: 'Phone',
+      dataField: 'createdAt',
+      text: 'Created At',
       sort: false
-    }, {
-      dataField: 'Branchname',
-      text: 'Branch',
-      sort: true
-    }, {
-      dataField: 'gender',
-      text: 'Gender',
-      sort: true
-    }, {
+    }   ,{
       dataField: 'Edit',
       text: 'Actions',
       isDummyField: true,

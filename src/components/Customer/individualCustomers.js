@@ -6,7 +6,7 @@ import { FaRupeeSign } from "react-icons/fa";
 import { MdFastfood } from "react-icons/md";
 import { ImHourGlass } from "react-icons/im";
 import { BsTrophyFill } from "react-icons/bs";
-import {OrderAnalyticsGraph } from "../../store/actionCreators/Customers/CustomerAction" 
+import { OrderAnalyticsGraph } from "../../store/actionCreators/Customers/CustomerAction"
 import MostPopularOrder from "./IndividualCustomer/MostPopularOrder";
 import IndividualCustomerRevenue from "./IndividualCustomer/invidualCustomerRevenue";
 import IndividualOrderTable from "./IndividualCustomer/individualOrderTable";
@@ -41,11 +41,7 @@ const IndividualCustomer = (props) => {
   useEffect(() => {
     dispatch(CustomerAvgPurchase(currentFilter))
   }, [currentFilter])
-  useEffect(()=>{
-    if(orderHistory.data){
-      dispatch(OrderAnalyticsGraph(current.month,current.year,orderHistory.data.customer_data[0].mobile_no))
-    }
-  },[current])
+
   const recentOrder = () => {
     if (orderHistory.data) {
       if (orderHistory.data.most_recent_orders) {
@@ -336,9 +332,18 @@ const IndividualCustomer = (props) => {
           </Row>
         </Container>)
       }
+      else {
+        return(    <Container fluid className={props.sideToggle === true ? "closeDash" : "openDash"} style={{ paddingTop: "95px", backgroundColor: "#F1F5F7" }} >
+        <h2>No data found</h2>
+      </Container>)
+    
+      }
     }
     else {
-      <div>Loading</div>
+      return(    <Container fluid className={props.sideToggle === true ? "closeDash" : "openDash"} style={{ paddingTop: "95px", backgroundColor: "#F1F5F7" }} >
+      <h2>No data found</h2>
+    </Container>)
+
     }
   }
   return (

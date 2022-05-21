@@ -63,11 +63,10 @@ const IndividualOrderTable = (props) => {
   
   }
   const page = useSelector(state => state.mostOrderPage);
-  useEffect(()=>{
-    if(orderHistory.data){  
-      dispatch(CustomerOrderHistory(page,orderHistory.data.customer_data[0].mobile_no))}
-  
-  },[page])
+  // useEffect(()=>{
+  //   if(orderHistory.data){  
+  //     dispatch(CustomerOrderHistory(page,orderHistory.data.customer_data[0].mobile_no))}
+  // },[page])
   useEffect(()=>{
     if(orderHistory.data){
       console.log("page Num",pageNum)

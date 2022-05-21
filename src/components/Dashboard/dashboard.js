@@ -26,11 +26,11 @@ const Dashboard = (props) => {
         month: "Jan",
         year: 2022
     })
-
+   
     const [revFilter,setRevFilter]=useState("yearly");
     const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const yearArray = () => {
-        let arrYear = []
+        let arrYear = ["All"]
         for (let i = 0; i < currYear - 2017 + 1; i++) {
             arrYear.push(2017 + i);
         }
@@ -45,7 +45,7 @@ const Dashboard = (props) => {
         dispatch(setCustomerVars())
     },[])
     useEffect(() => {
-        dispatch(getDashboardFilters("Super Admin"));
+         dispatch(getDashboardFilters("Super Admin"));
         dispatch(getDashboardCards(currentFilter.franchise.franchise_id, currentFilter.branch.branch_id, current.year, current.month))
         dispatch(salesAnalyticsDashboardPie(currentFilter.franchise.franchise_id, currentFilter.branch.branch_id, current.year, current.month));
     }, [current, currentFilter])
@@ -176,12 +176,11 @@ const Dashboard = (props) => {
 
     useEffect(() => {
 
-        if (revenueGraph.data) {
-          
+        if (revenueGraph.data) {         
             let points = []
             let labels =[]
             for (let i = 0; i < revenueGraph.data.y.length; i++) {
-                points.push(revenueGraph.data.y[i].toFixed(2))
+                points.push(parseFloat(revenueGraph.data.y[i]).toFixed(2))
             }
             for (let i = 0; i < revenueGraph.data.x.length; i++) {
                 labels.push(String(revenueGraph.data.x[i]))
@@ -222,10 +221,10 @@ const Dashboard = (props) => {
         }
     }, [revenueGraph])
 
-    const monthDrop = () => {
+    function monthDrop() {
         return monthArray.map((item, index) => {
-            return (<option key={index} value={item}>{item}</option>)
-        })
+            return (<option key={index} value={item}>{item}</option>);
+        });
     }
     const handleMonthChange = (e) => {
         setcurrent({

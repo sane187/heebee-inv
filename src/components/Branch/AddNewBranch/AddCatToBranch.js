@@ -1,106 +1,29 @@
 import React from 'react';
 import { Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import CatBigCards from './CatBigCards';
 
 const AddCatToBranch = (props) => {
-
+     const products=useSelector(state=>state.products)
+     const categories=useSelector(state=>state.categories)
+     
+     const BigCard=()=>{
+         if(categories.data){
+            return categories.data.data.map((item,index)=>{
+                return <CatBigCards item={item} index={index}/>
+             })
+         }
+     }
+     
     return (
         <Container fluid className={props.sideToggle === true ? "closeDash" : "openDash"} style={{ paddingTop: "95px", backgroundColor: "#F1F5F7" }} >
             <div className='row d-flex justify-content-center'>
                 <div className='form-container'>
-                    <div className='form-head'>Add Product To Categories</div>
+                    <div className='form-head'>Add Categories and Products</div>
                     <div className='form-body'>
                         <form >
                             <Row>
-                                <Col>
-                                    <Card style={{ width: '18rem' }}>
-                                        <Card.Img variant="top" src="holder.js/100px180" />
-                                        <Card.Body>
-                                            <Card.Title>Category Name</Card.Title>
-                                            <div>
-                                                {['checkbox'].map((type) => (
-                                                    <div key={`default-${type}`} className="mb-3">
-                                                        <Form.Check
-                                                            type={type}
-                                                            id={`default-${type}`}
-                                                            label={`Sandwich`}
-                                                        />
-
-                                                        <Form.Check
-                                                            type={type}
-                                                            label={`Burger`}
-                                                            id={`Burger`}
-                                                        />
-                                                        <Form.Check
-                                                            type={type}
-                                                            label={`Burger`}
-                                                            id={`Pizza`}
-                                                        />
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                                <Col>
-                                    <Card style={{ width: '18rem' }}>
-                                        <Card.Img variant="top" src="holder.js/100px180" />
-                                        <Card.Body>
-                                            <Card.Title>Category Name</Card.Title>
-                                            <div>
-                                                {['checkbox'].map((type) => (
-                                                    <div key={`default-${type}`} className="mb-3">
-                                                        <Form.Check
-                                                            type={type}
-                                                            id={`default-${type}`}
-                                                            label={`Sandwich`}
-                                                        />
- 
-                                                        <Form.Check
-                                                            type={type}
-                                                            label={`Burger`}
-                                                            id={`Burger`}
-                                                        />
-                                                        <Form.Check
-                                                            type={type}
-                                                            label={`Burger`}
-                                                            id={`Pizza`}
-                                                        />
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
-                                <Col>
-                                    <Card style={{ width: '18rem' }}>
-                                        <Card.Img variant="top" src="holder.js/100px180" />
-                                        <Card.Body>
-                                            <Card.Title>Category Name</Card.Title>
-                                            <div>
-                                                {['checkbox'].map((type) => (
-                                                    <div key={`default-${type}`} className="mb-3">
-                                                        <Form.Check
-                                                            type={type}
-                                                            id={`default-${type}`}
-                                                            label={`Sandwich`}
-                                                        />
-
-                                                        <Form.Check
-                                                            type={type}
-                                                            label={`Burger`}
-                                                            id={`Burger`}
-                                                        />
-                                                        <Form.Check
-                                                            type={type}
-                                                            label={`Burger`}
-                                                            id={`Pizza`}
-                                                        />
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
+                            {BigCard()}
                             </Row>
                             <Row>
                                 <Col> <div className="mb-2 p-2">

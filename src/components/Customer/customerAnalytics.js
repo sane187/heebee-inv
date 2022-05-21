@@ -52,6 +52,7 @@ const CustomerAnalytics = ({setRevFilter,handleYearChange,yearDrop,revenueAnalyt
                         <ButtonGroup className="mb-2 graph-buttons" style={{ fontFamily: "Nunito,sans-serif" }}>
                             <Button size="sm" variant="light" style={{ backgroundColor: "#EFF2F7", fontSize: "13px" }} onClick={()=>{setRevFilter("today")}} type="button">Today</Button>
                             <Button size="sm" variant="light" style={{ backgroundColor: "#EFF2F7", fontSize: "13px" }} onClick={()=>{setRevFilter("weekly")}} type="button">Weekly</Button>
+                            <Button size="sm" variant="light" style={{ backgroundColor: "#EFF2F7", fontSize: "13px" }} onClick={()=>{setRevFilter("monthly")}} type="button">Monthly</Button>
                             <Button size="sm" variant="light" style={{ backgroundColor: "#EFF2F7", fontSize: "13px" }} onClick={()=>{setRevFilter("yearly")}} type="button">yearly</Button>
                         </ButtonGroup>
 
