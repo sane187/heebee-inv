@@ -11,25 +11,92 @@ import AllCategory from "./AllCategory/AllCategory";
 import { useDispatch, useSelector } from "react-redux";
 import { get_category_branches } from "../../store/actionCreators/Catalog/Catalog";
 import IndividualCat from "./AllCategory/IndividualCat";
-const Catalog=(props)=>{
-  const [currentCategory,setCategory]=useState({})
-  const Branches=useSelector(state=>state.getBranchInCat)
-  const dispatch=useDispatch()
-//   useEffect(()=>{
-//       if(currentCategory.category_list_id && currentBranch){
-//            dispatch(get_category_branches(currentCategory.category_list_id,currentBranch))}
+const Catalog = (props) => {
+  const [currentCategory, setCategory] = useState({});
+  const Branches = useSelector((state) => state.getBranchInCat);
+  const dispatch = useDispatch();
+  const login = useSelector((state) => state.login);
+  const [viewPermission, setViewPermission] = useState(false);
+  const [editPermission, setEditPermission] = useState(false);
+  const editPermissions = () => {
+    if (login && login.login.status === "success") {
+      const { admin_permissions } = login.login.data;
+      admin_permissions.forEach((item) => {
+        if (item.module === "Catalog") {
+          console.log("permission given");
+          if (item.read === true) setViewPermission(true);
+          if (item.write === true) setEditPermission(true);
+        }
+      });
+    }
+  };
 
-//   },[Branches])
-  
-        return(<React.Fragment>
-            <Routes>
-                <Route path="/" element={<AllCategory sideToggle={props.sideToggle} setCategory={setCategory}  />} />
-                <Route path="/AddProduct" element={<AddNewFoodMain sideToggle={props.sideToggle}   />} />
-                <Route path="/AddCategory" element={<AddNewCatMain  sideToggle={props.sideToggle}   />} />
-                <Route path="/AddAddons" element={<AddAddons sideToggle={props.sideToggle}   />} />
-                <Route path="/Individual_category" element={<IndividualCat sideToggle={props.sideToggle}  currentCategory={currentCategory} />} />
-            </Routes>
-        </React.Fragment>)
-       
-}
+  useEffect(() => {
+    editPermissions();
+  }, []);
+  //   useEffect(()=>{
+  //       if(currentCategory.category_list_id && currentBranch){
+  //            dispatch(get_category_branches(currentCategory.category_list_id,currentBranch))}
+
+  //   },[Branches])
+
+  return (
+    <React.Fragment>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <AllCategory
+              sideToggle={props.sideToggle}
+              setCategory={setCategory}
+              viewPermission={viewPermission}
+              editPermission={editPermission}
+            />
+          }
+        />
+        <Route
+          path="/AddProduct"
+          element={
+            <AddNewFoodMain
+              sideToggle={props.sideToggle}
+              viewPermission={viewPermission}
+              editPermission={editPermission}
+            />
+          }
+        />
+        <Route
+          path="/AddCategory"
+          element={
+            <AddNewCatMain
+              sideToggle={props.sideToggle}
+              viewPermission={viewPermission}
+              editPermission={editPermission}
+            />
+          }
+        />
+        <Route
+          path="/AddAddons"
+          element={
+            <AddAddons
+              sideToggle={props.sideToggle}
+              viewPermission={viewPermission}
+              editPermission={editPermission}
+            />
+          }
+        />
+        <Route
+          path="/Individual_category"
+          element={
+            <IndividualCat
+              sideToggle={props.sideToggle}
+              currentCategory={currentCategory}
+            />
+          }
+          viewPermission={viewPermission}
+          editPermission={editPermission}
+        />
+      </Routes>
+    </React.Fragment>
+  );
+};
 export default Catalog;

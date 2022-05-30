@@ -1,30 +1,72 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import EmployeeDashBoard from './employeeDashBoard';
-import IndividualEmployee from './IndividualEmployee';
-import AddNewEmp from './AddNewEmp';
-import { useDispatch } from 'react-redux';
-import { setCustomerVars } from '../../store/actionCreators/Customers/CustomerAction';
-import { clearDashBoard } from '../../store/actionCreators/dashboard/dasboardActions';
+import EmployeeDashBoard from "./employeeDashBoard";
+import IndividualEmployee from "./IndividualEmployee";
+import AddNewEmp from "./AddNewEmp";
+import { useDispatch, useSelector } from "react-redux";
+import { setCustomerVars } from "../../store/actionCreators/Customers/CustomerAction";
+import { clearDashBoard } from "../../store/actionCreators/dashboard/dasboardActions";
 
-const  Employee =(props) =>{
-  const dispatch=useDispatch()
-  useEffect(()=>{
-    dispatch(setCustomerVars())
+const Employee = (props) => {
+  const [viewPermission, setViewPermission] = useState(false);
+  const [editPermission, setEditPermission] = useState(false);
+  const login = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setCustomerVars());
     dispatch(clearDashBoard());
-},[])
+    editPermissions();
+  }, [viewPermission, editPermission]);
 
-    return (
-      <React.Fragment>
-        <Routes>
-          <Route path="/" element={<EmployeeDashBoard sideToggle={props.sideToggle}  />} />
-          <Route path="/individual" element={<IndividualEmployee sideToggle={props.sideToggle}  />} />
-          <Route path="/addNew" element={<AddNewEmp sideToggle={props.sideToggle}  />} />
-        </Routes>
-      </React.Fragment>
-    );
-  
+  const editPermissions = () => {
+    if (login && login.login.status === "success") {
+      const { admin_permissions } = login.login.data;
+      admin_permissions.forEach((item) => {
+        if (item.module === "User") {
+          console.log("permission given");
+          if (item.read === true) setViewPermission(true);
+          if (item.write === true) setEditPermission(true);
+        }
+      });
+    }
+  };
+
+  return (
+    <React.Fragment>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <EmployeeDashBoard
+              sideToggle={props.sideToggle}
+              viewPermission={viewPermission}
+              editPermission={editPermission}
+            />
+          }
+        />
+        <Route
+          path="/individual"
+          element={
+            <IndividualEmployee
+              sideToggle={props.sideToggle}
+              viewPermission={viewPermission}
+              editPermission={editPermission}
+            />
+          }
+        />
+        <Route
+          path="/addNew"
+          element={
+            <AddNewEmp
+              sideToggle={props.sideToggle}
+              viewPermission={viewPermission}
+              editPermission={editPermission}
+            />
+          }
+        />
+      </Routes>
+    </React.Fragment>
+  );
 };
-
 
 export default Employee;
