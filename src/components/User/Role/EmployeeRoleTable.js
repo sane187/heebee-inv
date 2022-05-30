@@ -69,13 +69,16 @@ const EmployeeRoleTable = (props) => {
           cursor: props.editPermission ? "pointer" : "default",
           lineHeight: "normal",
         }}
+        key={row.employee_id}
       >
         <Link
           exact="true"
           to="/user/edit"
           onClick={(e) => {
-            if (props.editPermission) onClickFunction(row);
-            else e.preventDefault();
+            if (!props.editPermission) {
+              alert("You are not authorized to edit info of admins");
+              e.preventDefault();
+            } else onClickFunction(row);
           }}
           className={`btn btn-sm ${
             props.editPermission ? "btn-warning" : "btn-light"
@@ -138,18 +141,18 @@ const EmployeeRoleTable = (props) => {
               <Card>
                 <Card.Body>
                   <Card.Title className="h4 mb-2 ">
-                    Employee Datatable{" "}
+                    Employee Role Datatable{" "}
                   </Card.Title>
 
                   <PaginationProvider
                     pagination={paginationFactory(pageOptions)}
-                    keyField="EmpId"
+                    keyField="employee_role_id"
                     columns={columns}
                     data={productData}
                   >
                     {({ paginationProps, paginationTableProps }) => (
                       <ToolkitProvider
-                        keyField="EmpId"
+                        keyField="employee_role_id"
                         columns={columns}
                         data={productData}
                         search
@@ -171,7 +174,7 @@ const EmployeeRoleTable = (props) => {
                               <Col xl="12">
                                 <div className="table-responsive">
                                   <BootstrapTable
-                                    keyField={"EmpId"}
+                                    keyField={"employee_role_id"}
                                     responsive
                                     bordered={false}
                                     striped={false}

@@ -10,7 +10,6 @@ import {
   Alert,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { getBranches } from "../../../store/actionCreators/Branch/BranchAction";
 import { getAdminRoles } from "../../../store/actionCreators/User/UserAction";
 import Unauthorized from "../../unauthorized";
@@ -62,7 +61,6 @@ const AddAdminmain = (props) => {
       const { admin_permissions } = login.login.data;
       admin_permissions.forEach((item) => {
         if (item.module === "User") {
-          console.log("permission given");
           if (item.read === true) setViewPermission(true);
           if (item.write === true) setEditPermission(true);
         }
@@ -207,7 +205,7 @@ const AddAdminmain = (props) => {
                             <td>
                               <Form.Check
                                 type={`checkbox`}
-                                id={`default`}
+                                id={`default${item.Module_Name}1`}
                                 checked={item.Read}
                                 isValid
                                 onChange={() =>
@@ -222,7 +220,7 @@ const AddAdminmain = (props) => {
                             <td>
                               <Form.Check
                                 type={`checkbox`}
-                                id={`default`}
+                                id={`default${item.Module_Name}2`}
                                 checked={item.Write}
                                 onChange={() =>
                                   handleCheck({
@@ -466,7 +464,7 @@ const AddAdminmain = (props) => {
                       )}
                     </div>
                     <div className="p-2">
-                      <button type="submit" className="btn btn-primary ">
+                      <button type="submit" className="btn btn-primary">
                         Next
                       </button>
                     </div>
