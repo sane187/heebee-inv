@@ -34,16 +34,18 @@ export const getSingleBranch = (branch_id) => {
   };
 };
 
-export const getProductBranch = (branch_id) => {
+export const getProductsOfBranch = (branch_id) => {
+  console.log("api calle");
   return (dispatch, getState) => {
     axios
       .get(
         `${process.env.REACT_APP_API_URL}api/v1/admin/franchise/get_product_branch?branch=${branch_id}`
       )
-      .then((product_branch) => {
+      .then((res) => {
+        console.log(res);
         dispatch({
-          type: "GET_PRODUCT_BRANCH",
-          product_branch: product_branch.categ_data,
+          type: "GET_PRODUCTS_OF_BRANCH",
+          product_branch: res,
         });
       })
       .catch((err) => {

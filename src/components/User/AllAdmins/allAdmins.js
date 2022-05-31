@@ -39,7 +39,7 @@ const AllAdmins = (props) => {
 
   useEffect(() => {
     setDefaultData();
-  }, [getAllAdmins()]);
+  }, [admins]);
 
   const editPermissions = () => {
     if (login && login.login.status === "success") {

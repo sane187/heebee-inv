@@ -8,14 +8,18 @@ import {
   Dropdown,
   DropdownButton,
 } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CatBigCards from "./CatBigCards";
+import { getProductsOfBranch } from "./../../../store/actionCreators/Branch/BranchAction";
 
 const AddCatToBranch = (props) => {
   const products = useSelector((state) => state.products);
   const categories = useSelector((state) => state.categories);
   const branch = useSelector((state) => state.branch);
+  const products_in_branch = useSelector((state) => state.products_in_branch);
   const [currbranch, setCurrBranch] = useState({});
+
+  const dispatch = useDispatch();
 
   const BigCard = () => {
     if (categories.data) {
@@ -42,7 +46,8 @@ const AddCatToBranch = (props) => {
   };
   const handleSelectB = (e) => {
     const item = JSON.parse(e);
-
+    dispatch(getProductsOfBranch(item[1]));
+    console.log("Products in a branch ", products_in_branch);
     setCurrBranch({ branch_name: item[0], branch_id: item[1] });
   };
 
