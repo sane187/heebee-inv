@@ -79,7 +79,8 @@ const UpdateAdminInfo = (props) => {
   };
 
   const setDefaultData = () => {
-    const single_admin_data = single_admin.data.admins[0];
+    let single_admin_data = {};
+    if (single_admin.data) single_admin_data = single_admin.data.admins[0];
     const admin_branch = branch.data.data.filter(
       (br) => br.branch_id === single_admin_data.branch_id
     )[0];

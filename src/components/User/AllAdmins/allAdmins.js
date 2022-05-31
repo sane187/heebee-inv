@@ -72,7 +72,7 @@ const AllAdmins = (props) => {
     setBranches(tempBranches);
     setAdminRoles(tempAdminRoles);
     setFranchises(tempFranchises);
-    setAllAdmins(admins.data.admins);
+    if (admins.data) setAllAdmins(admins.data.admins);
   };
 
   function rankFormatter(cell, row, rowIndex, formatExtraData) {
