@@ -22,7 +22,7 @@ const Employee = (props) => {
     if (login && login.login.status === "success") {
       const { admin_permissions } = login.login.data;
       admin_permissions.forEach((item) => {
-        if (item.module === "User") {
+        if (item.module === "Employees") {
           if (item.read === true) setViewPermission(true);
           if (item.write === true) setEditPermission(true);
         }
