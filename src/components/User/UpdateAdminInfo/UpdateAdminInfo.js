@@ -43,6 +43,7 @@ const UpdateAdminInfo = (props) => {
   const [currRole, setCurrRole] = useState("");
   const [viewPermission, setViewPermission] = useState(false);
   const [editPermission, setEditPermission] = useState(false);
+  const [pwdChange, setPwdChange] = useState(false);
   const [error, setError] = useState(false);
   const [access, setAccess] = useState([]);
   const params = useParams();
@@ -80,12 +81,16 @@ const UpdateAdminInfo = (props) => {
 
   const setDefaultData = () => {
     let single_admin_data = {};
+    console.log(single_admin);
     if (single_admin.data) single_admin_data = single_admin.data.admins[0];
     const admin_branch = branch.data.data.filter(
       (br) => br.branch_id === single_admin_data.branch_id
     )[0];
     const admin_franchise = franchise.data.data.filter(
       (fr) => fr.franchise_id === single_admin_data.franchise_id
+    )[0];
+    const admin_role_clone = admin_role.data.data.filter(
+      (fr) => fr.admin_role_id === single_admin_data.admin_role_id
     )[0];
     setState({
       ...single_admin_data,
@@ -94,7 +99,7 @@ const UpdateAdminInfo = (props) => {
     });
     setCurrBranch(admin_branch.branch_name);
     setCurrFran(admin_franchise.franchise_name);
-    setCurrRole(single_admin_data.admin_role.admin_role);
+    setCurrRole(admin_role_clone.admin_role);
     setAccess(
       single_admin_data.admin_permissions.map((item) => ({
         Module_Name: item.module,
@@ -270,6 +275,7 @@ const UpdateAdminInfo = (props) => {
                         />
                       </div>
                     </Col>
+
                     <Col>
                       {" "}
                       <div className="mb-3 p-2">
@@ -278,11 +284,30 @@ const UpdateAdminInfo = (props) => {
                           type="password"
                           className="form-control"
                           aria-describedby="emailHelp"
-                          required
+                          required={pwdChange}
+                          disabled={!pwdChange}
                           value={state.password}
                           onChange={(e) =>
                             setState({ ...state, password: e.target.value })
                           }
+                        />
+                      </div>
+                    </Col>
+                    <Col>
+                      <div className="mb-3 p-2">
+                        <label className="form-label">
+                          Also Update Password
+                        </label>
+                        <Form.Check
+                          type={`checkbox`}
+                          id={`change_pwd`}
+                          checked={pwdChange}
+                          onChange={() => {
+                            setPwdChange(!pwdChange);
+                            setState({ ...state, password: "" });
+                          }}
+                          isValid
+                          // label={"Also update password"}
                         />
                       </div>
                     </Col>
