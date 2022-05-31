@@ -56,6 +56,7 @@ const AddAdminmain = (props) => {
     console.log("Branch", branch);
   }, []);
 
+  // setting permissions for accessing modules
   const editPermissions = () => {
     if (login && login.login.status === "success") {
       const { admin_permissions } = login.login.data;
