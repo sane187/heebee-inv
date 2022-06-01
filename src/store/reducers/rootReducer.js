@@ -1,9 +1,5 @@
 import FranchiseReducer from "./Franchise/FranchiseReducer";
-import {
-  BranchReducer,
-  SingleBranchReducer,
-  ProductsInBranchReducer,
-} from "./Branch/BranchReducer";
+import { BranchReducer, SingleBranchReducer } from "./Branch/BranchReducer";
 import { combineReducers } from "redux";
 import {
   ProductsReducer,
@@ -56,7 +52,6 @@ const rootReducer = combineReducers({
   role: RolesReducer,
   admin_role: get_admin_rolesReducer,
   single_branch: SingleBranchReducer,
-  products_in_branch: ProductsInBranchReducer,
   // admin vars
   admins: get_all_adminsReducer,
   single_admin: single_adminReducer,

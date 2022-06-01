@@ -34,19 +34,31 @@ export const getSingleBranch = (branch_id) => {
   };
 };
 
-export const getProductsOfBranch = (branch_id) => {
-  console.log("api calle");
+export const addNewBranch = (branch) => {
   return (dispatch, getState) => {
     axios
-      .get(
-        `${process.env.REACT_APP_API_URL}api/v1/admin/franchise/get_product_branch?branch=${branch_id}`
+      .post(
+        `${process.env.REACT_APP_API_URL}api/v1/admin/franchise/add_branch`,
+        branch
       )
       .then((res) => {
-        console.log(res);
         dispatch({
-          type: "GET_PRODUCTS_OF_BRANCH",
-          product_branch: res,
+          type: "ADD_NEW_BRANCH",
+          branch: res,
         });
+        toast.success(`New branch added successfully`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        setTimeout(() => {
+          window.location.reload(false);
+        }, 4000);
       })
       .catch((err) => {
         console.log("error", err);

@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import ReactMultiselectCheckboxes from "react-multiselect-checkboxes/lib/ReactMultiselectCheckboxes";
 import AddNewBranch from "./AddNewBranch";
 import AddCatToBranch from "./AddCatToBranch";
-import { getAllFranchise } from "../../../store/actionCreators/Franchise/AddNewFranchiseAction";
+import { addNewBranch } from "../../../store/actionCreators/Branch/BranchAction";
 import { toast } from "react-toastify";
 import Unauthorized from "../../unauthorized";
+import { DropdownButton, Dropdown } from "react-bootstrap";
 
 const AddNewBranchMain = (props) => {
   const dispatch = useDispatch();
   const franchise = useSelector((state) => state.franchise);
-  const [selectedFranchise, setSelected] = useState([]);
-  const [step, setStep] = useState(2);
+  const [selectedFranchise, setSelectedFranchise] = useState({});
+  const [step, setStep] = useState(1);
   const [options, setOptions] = useState([]);
   // ADD NEW BRANCH FIRST PAGE
   const [newBranch, setNewBranch] = useState({
@@ -21,66 +22,85 @@ const AddNewBranchMain = (props) => {
     address: "",
   });
 
+  const handleSubmit = (categories) => {
+    const cat_branch = [];
+    for (let cat in categories) {
+      const catObj = { category_list_id: cat };
+      const prodObj = categories[cat];
+      const product_list_id = [];
+      for (let prod in prodObj) {
+        const product = { id: prod, items_available: parseInt(prodObj[prod]) };
+        product_list_id.push(product);
+      }
+      catObj["product_list_id"] = product_list_id;
+      cat_branch.push(catObj);
+    }
+    const branch = {
+      ...newBranch,
+      branch_name: newBranch.BranchName,
+      cat_branch,
+      franchise_id: selectedFranchise.franchise_id,
+    };
+
+    dispatch(addNewBranch(branch));
+  };
+
   useEffect(() => {
     let array = [];
     if (franchise.data) {
-      franchise.data.data.map((item, index) => {
+      franchise.data.data.forEach((item, index) => {
         array.push({ label: item.franchise_name, value: item.franchise_id });
       });
     }
     setOptions(array);
   }, [franchise]);
 
-  function getDropdownButtonLabel({ placeholderButtonLabel, value }) {
-    if (value && value.some((o) => o.value === "*")) {
-      return `${placeholderButtonLabel}: All`;
-    } else {
-      return `${placeholderButtonLabel}: ${value.length} selected`;
-    }
-  }
-  function onChange(value, event) {
-    if (event.action === "select-option" && event.option.value === "*") {
-      this.setState(this.options);
-    } else if (
-      event.action === "deselect-option" &&
-      event.option.value === "*"
-    ) {
-      this.setState([]);
-    } else if (event.action === "deselect-option") {
-      this.setState(value.filter((o) => o.value !== "*"));
-    } else if (value.length === this.options.length - 1) {
-      this.setState(this.options);
-    } else {
-      this.setState(value);
-    }
-  }
-
   const displayFranchise = () => {
     if (options) {
       return (
         <div className="categorySelect">
-          <ReactMultiselectCheckboxes
-            options={[{ label: "All", value: "*" }, ...options]}
-            placeholderButtonLabel="Franchise"
-            getDropdownButtonLabel={getDropdownButtonLabel}
-            value={selectedFranchise}
-            onChange={onChange}
-            setState={setSelected}
-            required
-          />
+          <DropdownButton
+            variant="light"
+            title={
+              selectedFranchise.franchise_name
+                ? selectedFranchise.franchise_name
+                : "Franchise"
+            }
+            id="dropdown-menu-align-right"
+            onSelect={(e) => {
+              const franchise = JSON.parse(e);
+              setSelectedFranchise({
+                franchise_name: franchise[0],
+                franchise_id: franchise[1],
+              });
+            }}
+          >
+            {displayFranchiseOptions()}
+          </DropdownButton>
         </div>
       );
     }
+  };
+
+  const displayFranchiseOptions = () => {
+    return franchise.data.data.map((item, index) => {
+      return (
+        <Dropdown.Item
+          key={item.franchise_id}
+          eventKey={`["${item.franchise_name}","${item.franchise_id}"]`}
+        >
+          {" "}
+          {item.franchise_name}
+        </Dropdown.Item>
+      );
+    });
   };
   const handleNewBranchChange = (value) => (e) => {
     setNewBranch({ ...newBranch, [value]: e.target.value });
   };
   const onClickCat = (e) => {
-    if (selectedFranchise.length > 0) {
-      let SelectedB = [];
-      selectedFranchise.map((item, index) => {
-        SelectedB.push(item.value);
-      });
+    e.preventDefault();
+    if (selectedFranchise.franchise_id) {
       setStep(step + 1);
 
       // dispatch(addNewCategory(catName.name,catName.description,preview,SelectedB))
@@ -113,7 +133,11 @@ const AddNewBranchMain = (props) => {
         );
       } else
         return (
-          <AddCatToBranch sideToggle={props.sideToggle} setStep={setStep} />
+          <AddCatToBranch
+            sideToggle={props.sideToggle}
+            setStep={setStep}
+            handleSubmit={handleSubmit}
+          />
         );
     }
     return <Unauthorized />;

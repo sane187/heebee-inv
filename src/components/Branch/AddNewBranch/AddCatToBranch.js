@@ -1,30 +1,67 @@
-import React, { useState } from "react";
-import {
-  Card,
-  Col,
-  Container,
-  Form,
-  Row,
-  Dropdown,
-  DropdownButton,
-} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Col, Container, Row, Dropdown, DropdownButton } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import CatBigCards from "./CatBigCards";
-import { getProductsOfBranch } from "./../../../store/actionCreators/Branch/BranchAction";
+import { getSingleBranch } from "./../../../store/actionCreators/Branch/BranchAction";
 
 const AddCatToBranch = (props) => {
-  const products = useSelector((state) => state.products);
   const categories = useSelector((state) => state.categories);
   const branch = useSelector((state) => state.branch);
-  const products_in_branch = useSelector((state) => state.products_in_branch);
+  const single_branch = useSelector((state) => state.single_branch);
   const [currbranch, setCurrBranch] = useState({});
+  const [categoriesObj, setCategoriesObj] = useState({});
 
   const dispatch = useDispatch();
+
+  const setBranchData = () => {
+    let prefilledcategories = {};
+    if (single_branch.data) {
+      console.log("Branch data found!");
+      const prefilledcategoriesArr = single_branch.data.categories;
+      prefilledcategoriesArr.forEach((cat) => {
+        const productObj = {};
+        cat.products.forEach((prod) => {
+          productObj[prod.product_list_id] = prod.items_available;
+        });
+        prefilledcategories[cat.category_list_id] = productObj;
+      });
+    }
+    setCategoriesObj(prefilledcategories);
+  };
+
+  const setCategory = (category) => {
+    const catObj = { ...categoriesObj };
+    catObj[category.category_list_id] = category.isChecked ? {} : null;
+    setCategoriesObj(catObj);
+  };
+
+  const setProduct = (product) => {
+    const catObj = { ...categoriesObj };
+    const prodObj = catObj[product.category_list_id]
+      ? catObj[product.category_list_id]
+      : {};
+
+    prodObj[product.product_list_id] = product.items_available;
+
+    catObj[product.category_list_id] = prodObj;
+
+    setCategoriesObj(catObj);
+  };
 
   const BigCard = () => {
     if (categories.data) {
       return categories.data.data.map((item, index) => {
-        return <CatBigCards item={item} index={index} key={index} />;
+        return (
+          <CatBigCards
+            item={item}
+            index={index}
+            key={item.category_list_id}
+            prefilledProducts={categoriesObj[item.category_list_id]}
+            isChecked={categoriesObj[item.category_list_id] ? true : false}
+            setCategory={setCategory}
+            setProduct={setProduct}
+          />
+        );
       });
     }
   };
@@ -46,8 +83,9 @@ const AddCatToBranch = (props) => {
   };
   const handleSelectB = (e) => {
     const item = JSON.parse(e);
-    dispatch(getProductsOfBranch(item[1]));
-    console.log("Products in a branch ", products_in_branch);
+    dispatch(getSingleBranch(item[1]));
+    setBranchData();
+    console.log(categoriesObj);
     setCurrBranch({ branch_name: item[0], branch_id: item[1] });
   };
 
@@ -90,7 +128,16 @@ const AddCatToBranch = (props) => {
                     >
                       Back
                     </button>
-                    <button className="btn btn-primary me-2  ">Submit</button>
+                    <button
+                      className="btn btn-primary me-2"
+                      type="submit"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        props.handleSubmit(categoriesObj);
+                      }}
+                    >
+                      Submit
+                    </button>
                   </div>
                 </Col>
               </Row>
