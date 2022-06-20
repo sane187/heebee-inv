@@ -65,6 +65,8 @@ const Dashboard = (props) => {
     }
     return arrYear;
   };
+  
+  
   let dayArr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const [currentFilter, setCurrentFilters] = useState({
     branch: { branch_name: "All", branch_id: "All" },

@@ -11,9 +11,7 @@ export const getEmployeeToken = (email, password, role) => {
       })
       .then((employeeInfo) => {
         if (employeeInfo.data.status === "success") {
-          axios
-            .get(
-              `${process.env.REACT_APP_API_URL}api/v1/admin/get_admin_info`,
+          axios.get(`${process.env.REACT_APP_API_URL}api/v1/admin/get_admin_info`,
               {
                 headers: { token: employeeInfo.data.token },
               }

@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Dashboard from './components/Dashboard/dashboard';
 import Customer from './components/Customer/customer';
 import Employee from './components/Employees/employee';
+import Inventory from './components/Inventory/inventory';
 import Error404 from './components/error404';
 import React, { useEffect, useState } from 'react';
 import Footer from './components/footer';
@@ -48,6 +49,7 @@ function App() {
             <Route path="/branch/*" element={<Protected><Branch sideToggle={sideToggle} /></Protected>}></Route>
             <Route path="/catalog/*" element={<Protected><Catalog sideToggle={sideToggle} /></Protected>}></Route>
             <Route path="/user/*" element={<Protected><User sideToggle={sideToggle} /></Protected>}></Route>
+            <Route path="/inventory/*" element={<Protected><Inventory sideToggle={sideToggle} /></Protected>}></Route>
             <Route path="*" element={<Error404 />} />
           </Routes>
           <Footer />

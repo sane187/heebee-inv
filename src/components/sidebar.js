@@ -7,7 +7,7 @@ import { RiDashboardFill } from "react-icons/ri";
 import { RiBuilding2Fill } from "react-icons/ri";
 import { RiAdminFill } from "react-icons/ri";
 import { ImUserTie } from "react-icons/im";
-import { FaClipboardList } from "react-icons/fa";
+import { FaClipboardList,FaWarehouse } from "react-icons/fa";
 import {
   ProSidebar,
   SidebarHeader,
@@ -81,7 +81,7 @@ const Sidebar = (props) => {
   };
 
   function openChange(name) {
-    for (var i = 1; i < 7; i++) {
+    for (var i = 1; i < 8; i++) {
       if (name === `open${i}`) {
         dispatch(setSideToggle(`open${i}`, true));
       } else {
@@ -233,6 +233,49 @@ const Sidebar = (props) => {
                 </MenuItem>
                 <MenuItem>
                   Role
+                  <NavLink to="/user/role" />
+                </MenuItem>
+              </SubMenu>
+              <SubMenu
+                open={open.open7}
+                onOpenChange={() => openChange("open7")}
+                title="Inventory"
+                icon={<FaWarehouse />}
+              >
+                <MenuItem>
+                 Dashboard
+                  <NavLink to="/inventory" />
+                </MenuItem>
+                <MenuItem>
+                  Inventory Items
+                  <NavLink to="/inventory/items" />
+                </MenuItem>
+                <MenuItem>
+                  Request Items
+                  <NavLink to="/inventory/request" />
+                </MenuItem>
+                <MenuItem>
+                 All Requests
+                  <NavLink to="/inventory/allRequest" />
+                </MenuItem>
+                <MenuItem>
+                  MenuItem
+                  <NavLink to="/user/role" />
+                </MenuItem>
+                <MenuItem>
+                  Cookbook
+                  <NavLink to="/user/role" />
+                </MenuItem>
+                <MenuItem>
+                  Inventory Counts
+                  <NavLink to="/user/role" />
+                </MenuItem>
+                <MenuItem>
+                  Production Events
+                  <NavLink to="/user/role" />
+                </MenuItem>
+                <MenuItem>
+                  Waste Events
                   <NavLink to="/user/role" />
                 </MenuItem>
               </SubMenu>

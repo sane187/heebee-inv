@@ -11,6 +11,7 @@ import './index.scss';
 import './index.css';
 import rootReducer from './store/reducers/rootReducer';
 import thunk from 'redux-thunk';
+import {storeT} from '../src/store/Inventory/store'
 function saveToLocalStorage(state) {
   const serializedState = JSON.stringify(state);
   localStorage.setItem('state', serializedState);
@@ -27,8 +28,10 @@ const store =createStore(rootReducer,presistedState,composeEnhancers(applyMiddle
 store.subscribe(() => saveToLocalStorage(store.getState()));
 ReactDOM.render(
 
-  <Provider store={store}>
+  <Provider store={store} >
+    
         <App />
+   
   </Provider>
 
     ,
